@@ -38,8 +38,8 @@ Phase 2: Storage, tenancy, admin API
 
 Phase 3: Tracking
 
-- [ ] **3.1** Exposure and conversion endpoints (1.0 h)
-- [ ] **3.2** Snippet tracking: exposure dedupe, `ab.convert` (0.5 h)
+- [x] **3.1** Exposure and conversion endpoints (1.0 h)
+- [x] **3.2** Snippet tracking: exposure dedupe, `ab.convert` (0.5 h)
 
 Phase 4: Results
 
@@ -290,7 +290,7 @@ TP §9, §13.2. Results table with CI, uplift, p-value, SRM badge, low-sample wa
 
 ### 5.4 Snippet hardening
 
-TP §10 snippet rows, §16 fail-safe. `web/failsafe.html` test page pointing at a dead host asserting defaults are revealed within the timeout; `ab.js` served with `Cache-Control: public, max-age=86400`; size check in CI; a deliberate exception injected in a test confirms the `try/catch` reveals defaults. **Done when:** fail-safe page passes by hand and the size check is green.
+TP §10 snippet rows, §16 fail-safe. `web/failsafe.html` test page pointing at a dead host asserting defaults are revealed within the timeout; `ab.js` served with a content `ETag` and `Cache-Control: public, max-age=300, stale-while-revalidate=86400` (done early, during Phase 2 review); size check in CI; a deliberate exception injected in a test confirms the `try/catch` reveals defaults. **Done when:** fail-safe page passes by hand and the size check is green.
 
 ---
 

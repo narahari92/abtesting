@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"sync"
 	"testing"
@@ -266,3 +267,5 @@ func TestControlPlaneDisabledWithoutStore(t *testing.T) {
 func ptr(s string) *string { return &s }
 
 func ctxBg() context.Context { return context.Background() }
+
+func envOr(k string) string { return os.Getenv(k) }

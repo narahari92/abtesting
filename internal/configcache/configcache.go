@@ -24,6 +24,11 @@ type Entry struct {
 	// hot path only copies memory.
 	Bytes []byte
 	ETag  string
+	// Experiments indexes every experiment of the site by key, whatever its
+	// status, so the events path can resolve ids and validate variant keys
+	// without a database read. Conversions keep arriving after an experiment
+	// is paused, and exposures from a stale payload are still legitimate.
+	Experiments map[string]*experiment.Experiment
 }
 
 // Snapshot is an immutable view of all sites. Readers get a pointer and
@@ -64,7 +69,11 @@ func Build(configs []SiteConfig, now time.Time, log *slog.Logger) *Snapshot {
 			}
 			continue
 		}
-		entry := &Entry{Site: c.Site, Payload: p, Bytes: b, ETag: p.ETag()}
+		exps := make(map[string]*experiment.Experiment, len(c.Experiments))
+		for i := range c.Experiments {
+			exps[c.Experiments[i].Key] = &c.Experiments[i]
+		}
+		entry := &Entry{Site: c.Site, Payload: p, Bytes: b, ETag: p.ETag(), Experiments: exps}
 		s.Sites[c.Site.Key] = entry
 		if c.Site.APIKeyHash != "" {
 			s.byAPIKeyHash[c.Site.APIKeyHash] = entry

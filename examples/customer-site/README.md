@@ -55,4 +55,4 @@ Logging out invalidates the cache: the session, the cached payload and the store
 - Open a private window and log in as `alice` again: identical variants to the first window. Compare with `curl 'localhost:8080/v1/assign?site=acme-demo&v=user:alice'`.
 - Watch the Network tab on a first visit: one `payload.json` request to the service origin with `Access-Control-Allow-Origin: *`, no preflight.
 
-Buttons call `track('signup')` and `track('checkout', price)`, which forward to `ab.convert`. Until the tracking phase ships these are no-ops on the service side.
+Buttons call `track('signup')` and `track('checkout', price)`, which forward to `ab.convert`. The snippet sends one exposure beacon per assigned experiment the first time a user sees it in this browser, and one conversion beacon per assigned experiment on each `track` call; the server deduplicates both by primary key. Beacons from an origin that is not in the site's allow-list are accepted with 202 and silently dropped, which you can see by serving the site from a different port.

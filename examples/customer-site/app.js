@@ -4,7 +4,7 @@
   'use strict';
 
   // Conversion: one call, the snippet attributes it to every experiment the
-  // visitor was exposed to. (Beacons are a no-op until the tracking phase.)
+  // visitor was assigned to on this page.
   window.track = function (goal, value) {
     try { window.ab.convert(goal, value != null ? { value: value } : undefined); } catch (e) { /* never break the page */ }
     toast('Conversion recorded: ' + goal);

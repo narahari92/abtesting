@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"variantsvc/internal/configcache"
+	"variantsvc/internal/events"
 	"variantsvc/internal/site"
 	"variantsvc/internal/store"
 )
@@ -44,6 +45,8 @@ type Server struct {
 	PlatformKey string
 	// Limiter holds the per-site token buckets for events and assign.
 	Limiter *site.Limiter
+	// Events is built in Handler from Cache, Store, Limiter and Log.
+	Events *events.Recorder
 
 	snippet snippet
 }
@@ -59,10 +62,17 @@ func (s *Server) Handler() http.Handler {
 	if s.Limiter == nil {
 		s.Limiter = site.NewLimiter()
 	}
+	if s.Events == nil {
+		s.Events = &events.Recorder{Cache: s.Cache, Store: s.Store, Limiter: s.Limiter, Log: s.Log}
+	}
 	mux := http.NewServeMux()
 
 	mux.Handle("GET /v1/sites/{site}/payload.json", s.budget(HotPathBudget, http.HandlerFunc(s.handlePayload)))
 	mux.Handle("GET /v1/assign", s.budget(HotPathBudget, http.HandlerFunc(s.handleAssign)))
+	// The write path is registered even without a store: it then drops
+	// every event with 202, which is what a browser must always receive.
+	mux.Handle("POST /v1/events/exposure", s.budget(events.WriteBudget+time.Second, http.HandlerFunc(s.handleExposure)))
+	mux.Handle("POST /v1/events/conversion", s.budget(events.WriteBudget+time.Second, http.HandlerFunc(s.handleConversion)))
 	mux.HandleFunc("GET /healthz", s.handleHealthz)
 	mux.HandleFunc("GET /readyz", s.handleReadyz)
 	mux.HandleFunc("GET /v1/ab.js", s.handleSnippet)

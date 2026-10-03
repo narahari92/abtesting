@@ -76,6 +76,7 @@ function fakeEnv({ cached, cachedAgeMs, fetchImpl, readyState = 'complete', sear
     addEventListener: (_n, fn) => listeners.push(fn),
   };
   const fetches = [];
+  const beacons = [];
   const timers = [];
   const env = {
     storage: { getItem: (k) => (store.has(k) ? store.get(k) : null), setItem: (k, v) => store.set(k, String(v)), removeItem: (k) => store.delete(k) },
@@ -83,13 +84,14 @@ function fakeEnv({ cached, cachedAgeMs, fetchImpl, readyState = 'complete', sear
     location: { search },
     crypto: undefined,
     AbortController: undefined,
-    fetch: (url, opts) => { fetches.push(url); return fetchImpl ? fetchImpl(url, opts) : Promise.reject(new Error('no network')); },
+    fetch: (url, opts) => { if (opts && opts.method === 'POST') { beacons.push({ url, body: JSON.parse(opts.body), via: 'fetch' }); return Promise.resolve({ ok: true, status: 202 }); } fetches.push(url); return fetchImpl ? fetchImpl(url, opts) : Promise.reject(new Error('no network')); },
+    sendBeacon: (url, body) => { beacons.push({ url, body: JSON.parse(body), via: 'sendBeacon' }); return true; },
     setTimeout: (fn, ms) => { timers.push({ fn, ms }); return timers.length; },
     clearTimeout: () => {},
     now: () => now,
     scriptOrigin: 'https://cdn.example',
   };
-  return { env, store, doc, elements, fetches, timers, listeners, fireDOMContentLoaded: () => listeners.forEach((fn) => fn()), fireTimers: () => timers.splice(0).forEach((t) => t.fn()) };
+  return { env, store, doc, elements, fetches, beacons, timers, listeners, fireDOMContentLoaded: () => listeners.forEach((fn) => fn()), fireTimers: () => timers.splice(0).forEach((t) => t.fn()) };
 }
 const ok = (body) => () => Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(body) });
 const tick = () => new Promise((r) => setImmediate(r));
@@ -232,6 +234,83 @@ test('storage that throws is tolerated', async () => {
   const r = await run({ site: 'demo' }, f.env);
   assert.equal(r.source, 'network');
   assert.ok(r.assignments['hero-cta']);
+});
+
+test('exposure: one beacon per (visitor, experiment, variant), after apply, deduped across views', async () => {
+  const f = fakeEnv({ cached: payload, cachedAgeMs: 1000 });
+  const r = await run({ site: 'demo', visitorId: 'user:alice' }, f.env);
+  await tick();
+  assert.equal(f.beacons.length, 1, 'one assigned experiment, one beacon');
+  assert.equal(f.beacons[0].via, 'sendBeacon');
+  assert.equal(f.beacons[0].url, 'https://cdn.example/v1/events/exposure');
+  assert.deepEqual(f.beacons[0].body, { site: 'demo', v: 'user:alice', experiment: 'hero-cta', variant: r.assignments['hero-cta'].variant });
+  assert.equal(f.elements[0].textContent, r.assignments['hero-cta'].content.headline, 'exposure fires after content is applied');
+  // Same browser, next page view: nothing new to report.
+  await run({ site: 'demo', visitorId: 'user:alice' }, f.env);
+  await tick();
+  assert.equal(f.beacons.length, 1);
+  // Another visitor in the same browser (login switch) is a new exposure.
+  await run({ site: 'demo', visitorId: 'user:bob' }, f.env);
+  await tick();
+  assert.equal(f.beacons.length, 2);
+  assert.equal(f.beacons[1].body.v, 'user:bob');
+});
+
+test('exposure: nothing for held-back, failed load, or timeout-dropped assignments', async () => {
+  const f = fakeEnv({});                                    // first visit, fetch fails
+  await run({ site: 'demo' }, f.env);
+  await tick();
+  assert.equal(f.beacons.length, 0);
+  const held = { site: 'demo', version: 1, experiments: [{ ...payload.experiments[0], ranges: [[0, 0], [0, 0]] }] };
+  const g = fakeEnv({ fetchImpl: ok(held) });
+  await run({ site: 'demo' }, g.env);
+  await tick();
+  assert.equal(g.beacons.length, 0, 'held back visitors are not exposed');
+  const h = fakeEnv({ fetchImpl: () => new Promise(() => {}) });
+  const p = run({ site: 'demo', timeoutMs: 300 }, h.env);
+  h.fireTimers();
+  await p; await tick();
+  assert.equal(h.beacons.length, 0);
+});
+
+test('exposure: DOM still loading waits for DOMContentLoaded; sendBeacon missing falls back to fetch keepalive', async () => {
+  const f = fakeEnv({ cached: payload, cachedAgeMs: 1000, readyState: 'loading' });
+  f.env.sendBeacon = undefined;
+  await run({ site: 'demo', visitorId: 'user:carol' }, f.env);
+  await tick();
+  assert.equal(f.beacons.length, 0, 'not before the DOM is ready');
+  f.fireDOMContentLoaded();
+  await tick();
+  assert.equal(f.beacons.length, 1);
+  assert.equal(f.beacons[0].via, 'fetch');
+});
+
+test('convert: one beacon per assigned experiment, value optional, variant never sent, bad goals ignored', async () => {
+  const two = { ...payload, experiments: [payload.experiments[0], { ...payload.experiments[0], key: 'second', seed: 'other' }] };
+  const f = fakeEnv({ fetchImpl: ok(two) });
+  const r = await run({ site: 'demo', visitorId: 'user:alice' }, f.env);
+  await tick();
+  const exposures = f.beacons.length;
+  assert.equal(exposures, 2);
+  assert.equal(r.convert('signup'), 2);
+  assert.equal(r.convert('checkout', { value: 49 }), 2);
+  const conv = f.beacons.slice(exposures);
+  assert.equal(conv.length, 4);
+  assert.ok(conv.every((b) => b.url === 'https://cdn.example/v1/events/conversion'));
+  assert.deepEqual(conv[0].body, { site: 'demo', v: 'user:alice', experiment: 'hero-cta', goal: 'signup' });
+  assert.deepEqual(conv[3].body, { site: 'demo', v: 'user:alice', experiment: 'second', goal: 'checkout', value: 49 });
+  assert.ok(conv.every((b) => !('variant' in b.body)));
+  assert.equal(r.convert('Sign Up!'), 0);
+  assert.equal(r.convert(''), 0);
+  assert.equal(r.convert('x', { value: 'ten' }), 2, 'non-numeric value is dropped, beacon still sent');
+  assert.ok(!('value' in f.beacons[f.beacons.length - 1].body));
+});
+
+test('convert: nothing when the visitor has no assignments', async () => {
+  const f = fakeEnv({});
+  const r = await run({ site: 'demo' }, f.env);
+  assert.equal(r.convert('signup'), 0);
+  assert.equal(f.beacons.length, 0);
 });
 
 test('public surface', () => {

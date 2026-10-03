@@ -10,6 +10,8 @@ set -eu
 
 # macOS ships locale settings PostgreSQL rejects ("postmaster became multithreaded").
 export LC_ALL=C LANG=C
+# libpq may try Kerberos first on corporate machines and hang; the local server has no GSS.
+export PGGSSENCMODE=disable PGCONNECT_TIMEOUT=5
 
 PGPORT="${PGPORT:-54329}"
 DIR="$(cd "$(dirname "$0")/.." && pwd)/.localdb"

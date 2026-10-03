@@ -156,6 +156,67 @@
     });
   }
 
+  // ---- tracking beacons: fire-and-forget, never awaited, never thrown ----
+
+  // Sends a JSON body as text/plain so the request is a CORS simple request
+  // (no preflight). sendBeacon survives page unload; fetch keepalive is the
+  // fallback for browsers without it.
+  function beacon(env, url, body) {
+    var data = JSON.stringify(body);
+    try {
+      if (typeof env.sendBeacon === 'function' && env.sendBeacon(url, data)) return true;
+    } catch (e) { /* fall through */ }
+    try {
+      var p = env.fetch(url, { method: 'POST', body: data, keepalive: true, mode: 'cors', credentials: 'omit' });
+      if (p && typeof p.then === 'function') p.then(null, function () {});
+      return true;
+    } catch (e) { return false; }
+  }
+
+  // Exposure dedupe: one beacon per (visitor, experiment, variant) per
+  // browser, remembered in localStorage. The server dedupes again by
+  // primary key, so losing this set only costs a harmless repeat.
+  function exposedSet(storage, site) {
+    try {
+      var raw = storage.getItem('ab:exposed:' + site);
+      var arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) { return []; }
+  }
+
+  function recordExposures(env, state, assignments) {
+    var seen = exposedSet(env.storage, state.site);
+    var changed = false;
+    for (var key in assignments) {
+      if (!Object.prototype.hasOwnProperty.call(assignments, key)) continue;
+      var tag = state.visitorId + '|' + key + '|' + assignments[key].variant;
+      if (seen.indexOf(tag) >= 0) continue;
+      if (beacon(env, state.base + '/v1/events/exposure', { site: state.site, v: state.visitorId, experiment: key, variant: assignments[key].variant })) {
+        seen.push(tag);
+        changed = true;
+      }
+    }
+    if (changed) {
+      if (seen.length > 500) seen = seen.slice(seen.length - 500);
+      try { env.storage.setItem('ab:exposed:' + state.site, JSON.stringify(seen)); } catch (e) { /* ignore */ }
+    }
+  }
+
+  // One conversion beacon per experiment the visitor was assigned to. The
+  // variant is not sent: the server joins conversions to exposures.
+  function recordConversion(env, state, assignments, goal, opts) {
+    if (typeof goal !== 'string' || !/^[a-z0-9][a-z0-9-]{0,63}$/.test(goal)) return 0;
+    var value = opts && typeof opts.value === 'number' && isFinite(opts.value) ? opts.value : undefined;
+    var sent = 0;
+    for (var key in assignments) {
+      if (!Object.prototype.hasOwnProperty.call(assignments, key)) continue;
+      var body = { site: state.site, v: state.visitorId, experiment: key, goal: goal };
+      if (value !== undefined) body.value = value;
+      if (beacon(env, state.base + '/v1/events/conversion', body)) sent++;
+    }
+    return sent;
+  }
+
   // ---- visitor identity: first-party cookie on the customer's domain ----
 
   function readCookie(doc, name) {
@@ -236,7 +297,14 @@
 
   function run(cfg, env) {
     var result = { assignments: {}, visitorId: null, payloadVersion: null, source: 'none' };
+    var state = { site: null, visitorId: null, base: '' };
     var finished = false;
+
+    // convert is attached to the result so the public ab.convert can reach
+    // this run's site, visitor and assignments.
+    result.convert = function (goal, opts) {
+      try { return recordConversion(env, state, result.assignments, goal, opts); } catch (e) { return 0; }
+    };
 
     function finish() {
       if (!finished) {
@@ -244,6 +312,9 @@
         whenDOMReady(env, function () {
           try { apply(env.document, result.assignments); } catch (e) { /* ignore */ }
           reveal(env.document);
+          // Exposure fires only now, when the decision is actually in use:
+          // content applied, and ready about to resolve for key-driven code.
+          try { if (state.site) recordExposures(env, state, result.assignments); } catch (e) { /* ignore */ }
         });
       }
       return result;
@@ -264,6 +335,9 @@
       var visitor = getVisitor(env, cfg);
       result.visitorId = visitor;
       var base = (cfg.baseUrl != null ? String(cfg.baseUrl) : defaultBase(env)).replace(/\/+$/, '');
+      state.site = cfg.site;
+      state.visitorId = visitor;
+      state.base = base;
       var url = base + '/v1/sites/' + encodeURIComponent(cfg.site) + '/payload.json';
       var forced = forcedVariants(env.location ? env.location.search : '');
 
@@ -292,6 +366,8 @@
       crypto: root.crypto,
       AbortController: root.AbortController,
       fetch: function (u, o) { return root.fetch(u, o); },
+      sendBeacon: (root.navigator && typeof root.navigator.sendBeacon === 'function')
+        ? function (u, b) { return root.navigator.sendBeacon(u, b); } : undefined,
       setTimeout: function (f, ms) { return root.setTimeout(f, ms); },
       clearTimeout: function (t) { return root.clearTimeout(t); },
       now: function () { return Date.now(); },
@@ -313,8 +389,12 @@
     return p;
   }
 
-  // Phase 3 replaces this with conversion beacons.
-  function convert() {}
+  // ab.convert(goal, {value}) records a goal for every experiment this
+  // visitor was assigned to on this page. Safe to call before init
+  // finishes: it waits for ready. Never throws, never returns a rejection.
+  function convert(goal, opts) {
+    try { ready.then(function (r) { if (r && typeof r.convert === 'function') r.convert(goal, opts); }); } catch (e) { /* ignore */ }
+  }
 
   var ab = {
     init: init,
@@ -327,7 +407,7 @@
         if (site) init({ site: site, baseUrl: cs.getAttribute('data-base') || undefined });
       } catch (e) { /* ignore */ }
     },
-    _internal: { fnv1a32: fnv1a32, bucket: bucket, choose: choose, evaluate: evaluate, run: run, forcedVariants: forcedVariants, validVisitor: validVisitor, loadPayload: loadPayload }
+    _internal: { fnv1a32: fnv1a32, bucket: bucket, choose: choose, evaluate: evaluate, run: run, forcedVariants: forcedVariants, validVisitor: validVisitor, loadPayload: loadPayload, beacon: beacon }
   };
   return ab;
 });
