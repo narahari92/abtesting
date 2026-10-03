@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Variant service demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Anti-flicker: hide experiment elements until the snippet has decided. -->
+  <style>html:not([data-ab-ready]) [data-ab]{visibility:hidden}</style>
+  <!-- Install by URL (synchronous here so ab.ready is available to the inline script below).
+       Customers who inline ab.js instead skip this request entirely. -->
+  <script src="/v1/ab.js"></script>
+  <script>ab.init({ site: "demo" });</script>
+  <style>
+    body{font:16px/1.5 system-ui,sans-serif;max-width:40rem;margin:3rem auto;padding:0 1rem;color:#222}
+    h1{font-size:2rem}
+    button{font:inherit;padding:.6rem 1.2rem;border:0;border-radius:6px;background:#d9731a;color:#fff;cursor:pointer}
+    code,pre{font-family:ui-monospace,monospace;background:#f4f4f4;padding:.1rem .3rem;border-radius:4px}
+    pre{padding:.75rem;overflow:auto}
+    .muted{color:#666;font-size:.9rem}
+  </style>
+</head>
+<body>
+  <h1 data-ab="hero-cta:headline">Experiments for every website</h1>
+  <p>This page is a customer site. The headline and button above are under the <code>hero-cta</code> experiment and were chosen in this browser, with no request to the service's origin on repeat views.</p>
+  <p><button data-ab="hero-cta:cta" onclick="ab.convert('signup')">Get started</button></p>
+
+  <h2>What the snippet decided</h2>
+  <pre id="out">…</pre>
+  <p class="muted">
+    <code>checkout-flow</code> is a key-driven experiment: no <code>data-ab</code> markup, the page branches on the variant key.
+    Reload: the variants stay the same. <button id="reset" style="background:#666">Reset visitor</button> clears the cookie and cache so you become a new visitor.
+    Add <code>?ab_force=hero-cta:b</code> to the URL to force a variant.
+  </p>
+
+  <script>
+    ab.ready.then(function (r) {
+      var flow = r.assignments['checkout-flow'];
+      document.getElementById('out').textContent = JSON.stringify({
+        visitorId: r.visitorId,
+        payloadVersion: r.payloadVersion,
+        payloadSource: r.source,
+        assignments: r.assignments,
+        checkoutRendered: flow ? (flow.variant === 'one-page' ? 'one-page checkout' : 'default checkout') : 'held back: default checkout'
+      }, null, 2);
+    });
+    document.getElementById('reset').onclick = function () {
+      document.cookie = '_abv=; Max-Age=0; Path=/';
+      try { localStorage.removeItem('ab:payload:demo'); localStorage.removeItem('ab:assignments:demo'); } catch (e) {}
+      location.href = location.pathname;
+    };
+  </script>
+</body>
+</html>

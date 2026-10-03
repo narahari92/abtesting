@@ -1,0 +1,22 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# build output
+/bin/
+/dist/
+*.test
+*.out
+coverage.*
+
+# editors and OS
+.idea/
+.vscode/
+.DS_Store
+
+# node (tests only, no dependencies expected)
+node_modules/
+
+# local notes not part of the deliverable
+/growthbook-architecture.md

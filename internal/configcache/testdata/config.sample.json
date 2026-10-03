@@ -1,0 +1,60 @@
+{
+  "sites": [
+    {
+      "site": {
+        "key": "demo",
+        "name": "Demo site",
+        "status": "active",
+        "allowed_origins": ["http://localhost:8080"]
+      },
+      "experiments": [
+        {
+          "key": "hero-cta",
+          "name": "Hero headline and CTA",
+          "status": "running",
+          "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+          "hash_version": 1,
+          "coverage_bp": 10000,
+          "variants": [
+            { "key": "control", "weight_bp": 5000, "is_control": true, "approved": true, "position": 0,
+              "content": { "headline": "Experiments for every website", "cta": "Get started" } },
+            { "key": "b", "weight_bp": 5000, "approved": true, "position": 1,
+              "content": { "headline": "Ship faster with live experiments", "cta": "Start free" } }
+          ]
+        },
+        {
+          "key": "checkout-flow",
+          "name": "One-page checkout (key-driven)",
+          "status": "running",
+          "seed": "9b2c7d1e4f3a4b8c9d0e1f2a3b4c5d6e",
+          "hash_version": 1,
+          "coverage_bp": 9000,
+          "variants": [
+            { "key": "control", "weight_bp": 5000, "is_control": true, "approved": true, "position": 0, "content": { "steps": 3 } },
+            { "key": "one-page", "weight_bp": 5000, "approved": true, "position": 1, "content": { "steps": 1 } }
+          ]
+        },
+        {
+          "key": "pricing-copy",
+          "name": "Not started yet",
+          "status": "draft",
+          "seed": "0000000000000000000000000000ffff",
+          "hash_version": 1,
+          "coverage_bp": 10000,
+          "variants": [
+            { "key": "control", "weight_bp": 10000, "is_control": true, "approved": true, "position": 0, "content": {} }
+          ]
+        }
+      ]
+    },
+    {
+      "site": { "key": "suspended-site", "name": "Suspended tenant", "status": "suspended", "allowed_origins": [] },
+      "experiments": [
+        {
+          "key": "should-not-serve", "status": "running", "seed": "abcd", "hash_version": 1, "coverage_bp": 10000,
+          "variants": [ { "key": "control", "weight_bp": 10000, "is_control": true, "approved": true, "position": 0, "content": {} } ]
+        }
+      ]
+    }
+  ]
+}

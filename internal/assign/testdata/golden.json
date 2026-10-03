@@ -1,0 +1,7032 @@
+{
+  "description": "Shared Go/JS fixture for the assignment algorithm (hash_version 1: double FNV-1a 32, mod 10000). Do not regenerate unless the algorithm changes intentionally.",
+  "buckets": 10000,
+  "fnv1a32": [
+    {
+      "input": "",
+      "hash": 2166136261
+    },
+    {
+      "input": "a",
+      "hash": 3826002220
+    },
+    {
+      "input": "foobar",
+      "hash": 3214735720
+    },
+    {
+      "input": "hero-cta",
+      "hash": 1208526670
+    },
+    {
+      "input": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2evisitor-8841",
+      "hash": 1829713534
+    }
+  ],
+  "cases": [
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "1",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 41,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "42",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 2293,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "visitor-0052",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 7636,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "A",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 8574,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "trailing space ",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 2169,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 5403,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bb2f3bb7-8895-4b96-bb3e-bbc0d72e3be9",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 2306,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "f42bc25b-7184-4ae3-b5a1-b344d4acf417",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 4938,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5c1d8d7f-4a76-4b75-ad94-02d3572f1888",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 6093,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "17d777ea-e92d-48a7-9b3b-14b3416d60e6",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 1931,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5be49fb9-b67c-4463-b8a5-97e4a88d7862",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 2905,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "3a2b11e4-6015-4297-a8c1-05644196d0e1",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 56,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "6134de34-3383-4176-bde8-2851f0b10a5f",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 7179,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bd4c0ad1-eeb6-49e4-8eed-a20a6585e461",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 9910,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "3",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 8812,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "visitor-8841",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 7063,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "user@example.com",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 484,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": " leading space",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 4982,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ThEqUiCkBrOwNfOx",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 3939,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "f3230016-3b8b-4057-93c2-5f6b6f5a389b",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 8116,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "1ce45405-ac4f-4a23-a5e9-312d4c4de204",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 329,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5ebbe1ca-8135-45f4-b9e2-6890653f937d",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 7626,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5431fe17-3b6a-4f80-86f1-b1723556312c",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 6814,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "9627138c-5a57-464a-9d07-89cd60583381",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 4449,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ac29e46d-5d8d-42e7-9876-705ffcfbafed",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 5162,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "8415b8e9-d3a5-4aeb-a99c-d66108c87653",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 8794,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "20558540-d52e-444f-a087-682a9a47f6ae",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 3089,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 9380,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1000000",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 5710,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "visitor-1190",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 8764,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "~",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 5245,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "with/slash?and=query\u0026chars",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 8007,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "49350e4b-b933-4c89-92d5-35633ab150bf",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 437,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2cdb73cd-1157-4098-bf14-c98846864f72",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 2006,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "fd258189-f612-4c44-8e3f-cefd4472d33d",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 1758,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "a7a73f1e-3aad-4dcd-b060-86480d67ecd8",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 5555,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1b4ef1d5-2276-49b5-8e56-00cc4cac3d61",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 8084,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2bc7425c-d47e-414e-a324-59a9ed9ae19f",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 3661,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "001f0414-b103-4862-abe5-0cc54bbc1616",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 4432,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2b6e56b3-95e5-4587-b398-fcf35c42075e",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": 665,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "1",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 41,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "42",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 2293,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "visitor-0052",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 7636,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "A",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 8574,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "trailing space ",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 2169,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 5403,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bb2f3bb7-8895-4b96-bb3e-bbc0d72e3be9",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 2306,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "f42bc25b-7184-4ae3-b5a1-b344d4acf417",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 4938,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5c1d8d7f-4a76-4b75-ad94-02d3572f1888",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 6093,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "17d777ea-e92d-48a7-9b3b-14b3416d60e6",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 1931,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5be49fb9-b67c-4463-b8a5-97e4a88d7862",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 2905,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "3a2b11e4-6015-4297-a8c1-05644196d0e1",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 56,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "6134de34-3383-4176-bde8-2851f0b10a5f",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 7179,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bd4c0ad1-eeb6-49e4-8eed-a20a6585e461",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 9910,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "3",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 8812,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "visitor-8841",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 7063,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "user@example.com",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 484,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": " leading space",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 4982,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ThEqUiCkBrOwNfOx",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 3939,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "f3230016-3b8b-4057-93c2-5f6b6f5a389b",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 8116,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "1ce45405-ac4f-4a23-a5e9-312d4c4de204",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 329,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5ebbe1ca-8135-45f4-b9e2-6890653f937d",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 7626,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5431fe17-3b6a-4f80-86f1-b1723556312c",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 6814,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "9627138c-5a57-464a-9d07-89cd60583381",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 4449,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ac29e46d-5d8d-42e7-9876-705ffcfbafed",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 5162,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "8415b8e9-d3a5-4aeb-a99c-d66108c87653",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 8794,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "20558540-d52e-444f-a087-682a9a47f6ae",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 3089,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 9380,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1000000",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 5710,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "visitor-1190",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 8764,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "~",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 5245,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "with/slash?and=query\u0026chars",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 8007,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "49350e4b-b933-4c89-92d5-35633ab150bf",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 437,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2cdb73cd-1157-4098-bf14-c98846864f72",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 2006,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "fd258189-f612-4c44-8e3f-cefd4472d33d",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 1758,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "a7a73f1e-3aad-4dcd-b060-86480d67ecd8",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 5555,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1b4ef1d5-2276-49b5-8e56-00cc4cac3d61",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 8084,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2bc7425c-d47e-414e-a324-59a9ed9ae19f",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 3661,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "001f0414-b103-4862-abe5-0cc54bbc1616",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 4432,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2b6e56b3-95e5-4587-b398-fcf35c42075e",
+      "hash_version": 1,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 9000,
+      "ranges": [
+        [
+          0,
+          4500
+        ],
+        [
+          5000,
+          9500
+        ]
+      ],
+      "bucket": 665,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "1",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 41,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "42",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 2293,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "visitor-0052",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 7636,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "A",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 8574,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "trailing space ",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 2169,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 5403,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bb2f3bb7-8895-4b96-bb3e-bbc0d72e3be9",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 2306,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "f42bc25b-7184-4ae3-b5a1-b344d4acf417",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 4938,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5c1d8d7f-4a76-4b75-ad94-02d3572f1888",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 6093,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "17d777ea-e92d-48a7-9b3b-14b3416d60e6",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 1931,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5be49fb9-b67c-4463-b8a5-97e4a88d7862",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 2905,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "3a2b11e4-6015-4297-a8c1-05644196d0e1",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 56,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "6134de34-3383-4176-bde8-2851f0b10a5f",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 7179,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bd4c0ad1-eeb6-49e4-8eed-a20a6585e461",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 9910,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "3",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 8812,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "visitor-8841",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 7063,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "user@example.com",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 484,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": " leading space",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 4982,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ThEqUiCkBrOwNfOx",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 3939,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "f3230016-3b8b-4057-93c2-5f6b6f5a389b",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 8116,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "1ce45405-ac4f-4a23-a5e9-312d4c4de204",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 329,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5ebbe1ca-8135-45f4-b9e2-6890653f937d",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 7626,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5431fe17-3b6a-4f80-86f1-b1723556312c",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 6814,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "9627138c-5a57-464a-9d07-89cd60583381",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 4449,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ac29e46d-5d8d-42e7-9876-705ffcfbafed",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 5162,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "8415b8e9-d3a5-4aeb-a99c-d66108c87653",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 8794,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "20558540-d52e-444f-a087-682a9a47f6ae",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 3089,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 9380,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1000000",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 5710,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "visitor-1190",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 8764,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "~",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 5245,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "with/slash?and=query\u0026chars",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 8007,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "49350e4b-b933-4c89-92d5-35633ab150bf",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 437,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2cdb73cd-1157-4098-bf14-c98846864f72",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 2006,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "fd258189-f612-4c44-8e3f-cefd4472d33d",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 1758,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "a7a73f1e-3aad-4dcd-b060-86480d67ecd8",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 5555,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1b4ef1d5-2276-49b5-8e56-00cc4cac3d61",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 8084,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2bc7425c-d47e-414e-a324-59a9ed9ae19f",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 3661,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "001f0414-b103-4862-abe5-0cc54bbc1616",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 4432,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2b6e56b3-95e5-4587-b398-fcf35c42075e",
+      "hash_version": 1,
+      "weights_bp": [
+        9000,
+        1000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          9000
+        ],
+        [
+          9000,
+          10000
+        ]
+      ],
+      "bucket": 665,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "1",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 41,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "42",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 2293,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "visitor-0052",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 7636,
+      "variant": 2
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "A",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 8574,
+      "variant": 2
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "trailing space ",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 2169,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 5403,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bb2f3bb7-8895-4b96-bb3e-bbc0d72e3be9",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 2306,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "f42bc25b-7184-4ae3-b5a1-b344d4acf417",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 4938,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5c1d8d7f-4a76-4b75-ad94-02d3572f1888",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 6093,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "17d777ea-e92d-48a7-9b3b-14b3416d60e6",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 1931,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5be49fb9-b67c-4463-b8a5-97e4a88d7862",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 2905,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "3a2b11e4-6015-4297-a8c1-05644196d0e1",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 56,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "6134de34-3383-4176-bde8-2851f0b10a5f",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 7179,
+      "variant": 2
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bd4c0ad1-eeb6-49e4-8eed-a20a6585e461",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 9910,
+      "variant": 2
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "3",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 8812,
+      "variant": 2
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "visitor-8841",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 7063,
+      "variant": 2
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "user@example.com",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 484,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": " leading space",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 4982,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ThEqUiCkBrOwNfOx",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 3939,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "f3230016-3b8b-4057-93c2-5f6b6f5a389b",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 8116,
+      "variant": 2
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "1ce45405-ac4f-4a23-a5e9-312d4c4de204",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 329,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5ebbe1ca-8135-45f4-b9e2-6890653f937d",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 7626,
+      "variant": 2
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5431fe17-3b6a-4f80-86f1-b1723556312c",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 6814,
+      "variant": 2
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "9627138c-5a57-464a-9d07-89cd60583381",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 4449,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ac29e46d-5d8d-42e7-9876-705ffcfbafed",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 5162,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "8415b8e9-d3a5-4aeb-a99c-d66108c87653",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 8794,
+      "variant": 2
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "20558540-d52e-444f-a087-682a9a47f6ae",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 3089,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 9380,
+      "variant": 2
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1000000",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 5710,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "visitor-1190",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 8764,
+      "variant": 2
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "~",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 5245,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "with/slash?and=query\u0026chars",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 8007,
+      "variant": 2
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "49350e4b-b933-4c89-92d5-35633ab150bf",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 437,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2cdb73cd-1157-4098-bf14-c98846864f72",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 2006,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "fd258189-f612-4c44-8e3f-cefd4472d33d",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 1758,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "a7a73f1e-3aad-4dcd-b060-86480d67ecd8",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 5555,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1b4ef1d5-2276-49b5-8e56-00cc4cac3d61",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 8084,
+      "variant": 2
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2bc7425c-d47e-414e-a324-59a9ed9ae19f",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 3661,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "001f0414-b103-4862-abe5-0cc54bbc1616",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 4432,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2b6e56b3-95e5-4587-b398-fcf35c42075e",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          3300
+        ],
+        [
+          3300,
+          6600
+        ],
+        [
+          6600,
+          10000
+        ]
+      ],
+      "bucket": 665,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "1",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 41,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "42",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 2293,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "visitor-0052",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 7636,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "A",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 8574,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "trailing space ",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 2169,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 5403,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bb2f3bb7-8895-4b96-bb3e-bbc0d72e3be9",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 2306,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "f42bc25b-7184-4ae3-b5a1-b344d4acf417",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 4938,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5c1d8d7f-4a76-4b75-ad94-02d3572f1888",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 6093,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "17d777ea-e92d-48a7-9b3b-14b3416d60e6",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 1931,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5be49fb9-b67c-4463-b8a5-97e4a88d7862",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 2905,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "3a2b11e4-6015-4297-a8c1-05644196d0e1",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 56,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "6134de34-3383-4176-bde8-2851f0b10a5f",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 7179,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bd4c0ad1-eeb6-49e4-8eed-a20a6585e461",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 9910,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "3",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 8812,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "visitor-8841",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 7063,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "user@example.com",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 484,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": " leading space",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 4982,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ThEqUiCkBrOwNfOx",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 3939,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "f3230016-3b8b-4057-93c2-5f6b6f5a389b",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 8116,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "1ce45405-ac4f-4a23-a5e9-312d4c4de204",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 329,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5ebbe1ca-8135-45f4-b9e2-6890653f937d",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 7626,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5431fe17-3b6a-4f80-86f1-b1723556312c",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 6814,
+      "variant": 2
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "9627138c-5a57-464a-9d07-89cd60583381",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 4449,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ac29e46d-5d8d-42e7-9876-705ffcfbafed",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 5162,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "8415b8e9-d3a5-4aeb-a99c-d66108c87653",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 8794,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "20558540-d52e-444f-a087-682a9a47f6ae",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 3089,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 9380,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1000000",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 5710,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "visitor-1190",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 8764,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "~",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 5245,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "with/slash?and=query\u0026chars",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 8007,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "49350e4b-b933-4c89-92d5-35633ab150bf",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 437,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2cdb73cd-1157-4098-bf14-c98846864f72",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 2006,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "fd258189-f612-4c44-8e3f-cefd4472d33d",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 1758,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "a7a73f1e-3aad-4dcd-b060-86480d67ecd8",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 5555,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1b4ef1d5-2276-49b5-8e56-00cc4cac3d61",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 8084,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2bc7425c-d47e-414e-a324-59a9ed9ae19f",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 3661,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "001f0414-b103-4862-abe5-0cc54bbc1616",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 4432,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2b6e56b3-95e5-4587-b398-fcf35c42075e",
+      "hash_version": 1,
+      "weights_bp": [
+        3300,
+        3300,
+        3400
+      ],
+      "coverage_bp": 1000,
+      "ranges": [
+        [
+          0,
+          330
+        ],
+        [
+          3300,
+          3630
+        ],
+        [
+          6600,
+          6940
+        ]
+      ],
+      "bucket": 665,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "1",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 41,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "42",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 2293,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "visitor-0052",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 7636,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "A",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 8574,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "trailing space ",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 2169,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 5403,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bb2f3bb7-8895-4b96-bb3e-bbc0d72e3be9",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 2306,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "f42bc25b-7184-4ae3-b5a1-b344d4acf417",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 4938,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5c1d8d7f-4a76-4b75-ad94-02d3572f1888",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 6093,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "17d777ea-e92d-48a7-9b3b-14b3416d60e6",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 1931,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5be49fb9-b67c-4463-b8a5-97e4a88d7862",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 2905,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "3a2b11e4-6015-4297-a8c1-05644196d0e1",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 56,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "6134de34-3383-4176-bde8-2851f0b10a5f",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 7179,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bd4c0ad1-eeb6-49e4-8eed-a20a6585e461",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 9910,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "3",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 8812,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "visitor-8841",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 7063,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "user@example.com",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 484,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": " leading space",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 4982,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ThEqUiCkBrOwNfOx",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 3939,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "f3230016-3b8b-4057-93c2-5f6b6f5a389b",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 8116,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "1ce45405-ac4f-4a23-a5e9-312d4c4de204",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 329,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5ebbe1ca-8135-45f4-b9e2-6890653f937d",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 7626,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5431fe17-3b6a-4f80-86f1-b1723556312c",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 6814,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "9627138c-5a57-464a-9d07-89cd60583381",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 4449,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ac29e46d-5d8d-42e7-9876-705ffcfbafed",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 5162,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "8415b8e9-d3a5-4aeb-a99c-d66108c87653",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 8794,
+      "variant": 1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "20558540-d52e-444f-a087-682a9a47f6ae",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 3089,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 9380,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1000000",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 5710,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "visitor-1190",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 8764,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "~",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 5245,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "with/slash?and=query\u0026chars",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 8007,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "49350e4b-b933-4c89-92d5-35633ab150bf",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 437,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2cdb73cd-1157-4098-bf14-c98846864f72",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 2006,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "fd258189-f612-4c44-8e3f-cefd4472d33d",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 1758,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "a7a73f1e-3aad-4dcd-b060-86480d67ecd8",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 5555,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1b4ef1d5-2276-49b5-8e56-00cc4cac3d61",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 8084,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2bc7425c-d47e-414e-a324-59a9ed9ae19f",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 3661,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "001f0414-b103-4862-abe5-0cc54bbc1616",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 4432,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2b6e56b3-95e5-4587-b398-fcf35c42075e",
+      "hash_version": 1,
+      "weights_bp": [
+        100,
+        9900
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          100
+        ],
+        [
+          100,
+          10000
+        ]
+      ],
+      "bucket": 665,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "1",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 41,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "42",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 2293,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "visitor-0052",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 7636,
+      "variant": 3
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "A",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 8574,
+      "variant": 3
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "trailing space ",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 2169,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 5403,
+      "variant": 2
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bb2f3bb7-8895-4b96-bb3e-bbc0d72e3be9",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 2306,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "f42bc25b-7184-4ae3-b5a1-b344d4acf417",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 4938,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5c1d8d7f-4a76-4b75-ad94-02d3572f1888",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 6093,
+      "variant": 2
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "17d777ea-e92d-48a7-9b3b-14b3416d60e6",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 1931,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "5be49fb9-b67c-4463-b8a5-97e4a88d7862",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 2905,
+      "variant": 1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "3a2b11e4-6015-4297-a8c1-05644196d0e1",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 56,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "6134de34-3383-4176-bde8-2851f0b10a5f",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 7179,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "bd4c0ad1-eeb6-49e4-8eed-a20a6585e461",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 9910,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "3",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 8812,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "visitor-8841",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 7063,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "user@example.com",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 484,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": " leading space",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 4982,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ThEqUiCkBrOwNfOx",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 3939,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "f3230016-3b8b-4057-93c2-5f6b6f5a389b",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 8116,
+      "variant": 3
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "1ce45405-ac4f-4a23-a5e9-312d4c4de204",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 329,
+      "variant": 0
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5ebbe1ca-8135-45f4-b9e2-6890653f937d",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 7626,
+      "variant": 3
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "5431fe17-3b6a-4f80-86f1-b1723556312c",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 6814,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "9627138c-5a57-464a-9d07-89cd60583381",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 4449,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "ac29e46d-5d8d-42e7-9876-705ffcfbafed",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 5162,
+      "variant": 2
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "8415b8e9-d3a5-4aeb-a99c-d66108c87653",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 8794,
+      "variant": -1
+    },
+    {
+      "seed": "00000000000000000000000000000000",
+      "visitor_id": "20558540-d52e-444f-a087-682a9a47f6ae",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 3089,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 9380,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1000000",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 5710,
+      "variant": 2
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "visitor-1190",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 8764,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "~",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 5245,
+      "variant": 2
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "with/slash?and=query\u0026chars",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 8007,
+      "variant": 3
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "49350e4b-b933-4c89-92d5-35633ab150bf",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 437,
+      "variant": 0
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2cdb73cd-1157-4098-bf14-c98846864f72",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 2006,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "fd258189-f612-4c44-8e3f-cefd4472d33d",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 1758,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "a7a73f1e-3aad-4dcd-b060-86480d67ecd8",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 5555,
+      "variant": 2
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "1b4ef1d5-2276-49b5-8e56-00cc4cac3d61",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 8084,
+      "variant": 3
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2bc7425c-d47e-414e-a324-59a9ed9ae19f",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 3661,
+      "variant": 1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "001f0414-b103-4862-abe5-0cc54bbc1616",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 4432,
+      "variant": -1
+    },
+    {
+      "seed": "hero-cta",
+      "visitor_id": "2b6e56b3-95e5-4587-b398-fcf35c42075e",
+      "hash_version": 1,
+      "weights_bp": [
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "coverage_bp": 5000,
+      "ranges": [
+        [
+          0,
+          1250
+        ],
+        [
+          2500,
+          3750
+        ],
+        [
+          5000,
+          6250
+        ],
+        [
+          7500,
+          8750
+        ]
+      ],
+      "bucket": 665,
+      "variant": 0
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "visitor-8841",
+      "hash_version": 99,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": -1,
+      "variant": -1
+    },
+    {
+      "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
+      "visitor_id": "visitor-8841",
+      "hash_version": 0,
+      "weights_bp": [
+        5000,
+        5000
+      ],
+      "coverage_bp": 10000,
+      "ranges": [
+        [
+          0,
+          5000
+        ],
+        [
+          5000,
+          10000
+        ]
+      ],
+      "bucket": -1,
+      "variant": -1
+    }
+  ]
+}

@@ -4,52 +4,74 @@ Sources: [brief](./staff-engineer-takehome-assignment-brief.md), [technical plan
 
 ## How to use this document
 
-**Checkpoints are the unit of work.** Every phase is split into checkpoints of at most ~1.5 h. A checkpoint is done when its *Done when* checks pass and its work is committed. There is no partial state between checkpoints: if work on a checkpoint is interrupted, either finish it or discard the uncommitted changes and restart that checkpoint. Checkpoints are sized so that a restart costs little.
+**Checkpoints are the unit of work.** Every phase is split into checkpoints of at most ~1.5 h. A checkpoint is done when its *Done when* checks pass. There is no partial state between checkpoints: if work on a checkpoint is interrupted, either finish it or discard its changes and restart that checkpoint. Checkpoints are sized so that a restart costs little.
 
-**Progress log.** The table below is the single source of truth for where the build is. Update the row in the same commit that completes the checkpoint, so `git log` and the table never disagree.
+**Progress log.** The checklist below is the single source of truth for where the build is. Tick a box the moment the checkpoint's *Done when* checks pass, in the same edit pass as the work itself, so the checklist and the tree never disagree.
+
+**Review before commit.** Nothing is committed without the owner's review. A finished checkpoint is left as uncommitted changes with its box ticked; the owner reviews the diff and either asks for changes or gives the go-ahead to commit. Several reviewed checkpoints may be committed together, one commit per checkpoint.
 
 **Resume protocol** (run at the start of any session, including the first):
 
-1. `git status` must be clean. If it is not, the previous session stopped mid-checkpoint: run the *Done when* checks of the current checkpoint; if they pass, commit and mark it done, otherwise `git stash` (or discard) and restart the checkpoint.
-2. Read the progress log. Find the first row that is not `done`.
-3. Re-run the *Done when* checks of the last `done` row to confirm the tree is in the expected state.
+1. Run `git status`. Uncommitted changes are expected when ticked checkpoints are awaiting review; compare the ticked boxes against `git log` to see which. If there are changes for a checkpoint whose box is *not* ticked, the previous session stopped mid-checkpoint: run its *Done when* checks; if they pass, tick the box, otherwise discard those changes and restart the checkpoint.
+2. Find the first unticked box.
+3. Re-run the *Done when* checks of the last ticked checkpoint to confirm the tree is in the expected state.
 4. Start the next checkpoint. Read only the TP sections it cites.
 
-**Commits.** One commit per checkpoint minimum, subject in imperative mood describing the change, not the checkpoint id. Never mention any company (brief constraint). Never commit secrets; `.env` is gitignored from checkpoint 1.1 on.
+**Commits** (after review only). One commit per checkpoint, subject in imperative mood describing the change, not the checkpoint id. Never mention any company (brief constraint). Never commit secrets; `.env` is gitignored from checkpoint 1.1 on.
 
 ### Progress log
 
-| Checkpoint | Deliverable | Est. | Status |
-|---|---|---|---|
-| 1.1 | Scaffold, module, CI, `.env.example`, Dockerfile | 0.5 h | todo |
-| 1.2 | `internal/assign` + golden fixture + statistical tests | 1.5 h | todo |
-| 1.3 | `internal/experiment` validation + `internal/payload` compiler | 1.0 h | todo |
-| 1.4 | Snapshot, file-backed config, payload and assign endpoints, server binary | 1.5 h | todo |
-| 1.5 | `web/ab.js` evaluator + Go/JS parity test + minimal demo page | 1.5 h | todo |
-| 2.1 | Postgres schema, migrator, store, integration test harness | 1.0 h | todo |
-| 2.2 | Sites, credentials, auth middleware, origin matcher, rate limiter | 1.0 h | todo |
-| 2.3 | Admin experiment API with status machine | 1.0 h | todo |
-| 2.4 | Refresher goroutine, version bump, tenant isolation tests | 1.0 h | todo |
-| 3.1 | Exposure and conversion endpoints | 1.0 h | todo |
-| 3.2 | Snippet tracking: exposure dedupe, `ab.convert` | 0.5 h | todo |
-| 4.1 | Statistics: Wilson, z-test, SRM | 0.75 h | todo |
-| 4.2 | Results query and endpoint | 0.75 h | todo |
-| 4.3 | Simulate endpoint (`DEMO_MODE`) | 0.5 h | todo |
-| 5.1 | Demo page with simulate button | 0.75 h | todo |
-| 5.2 | Dashboard: site settings, experiments | 1.25 h | todo |
-| 5.3 | Dashboard: results view | 0.5 h | todo |
-| 5.4 | Snippet hardening and fail-safe test page | 0.5 h | todo |
-| 6.1 | LLM client interface, Anthropic implementation, fake | 1.0 h | todo |
-| 6.2 | LLM jobs table, worker, generate/approve endpoints | 1.0 h | todo |
-| 6.3 | Dashboard: generate with AI | 0.5 h | todo |
-| 7.1 | Fly.io + Neon deployment, demo site bootstrap, smoke test | 1.0 h | todo |
-| 7.2 | CDN in front, load test, recorded numbers | 0.5 h | todo |
-| 8.1 | README with integration guide | 1.0 h | todo |
-| 8.2 | Design document | 1.5 h | todo |
-| 8.3 | Walkthrough script, hygiene pass | 0.5 h | todo |
-| — | Buffer | 0.5 h | — |
+Phase 1: Read path
 
-Total 24 h. If the clock forces cuts, cut from the end of phase 6 (keep 6.1 and the design-document discussion), then 7.2, then 5.3 and 5.4. Phases 1 to 4 and 8 are never cut.
+- [x] **1.1** Scaffold, module, CI, `.env.example`, Dockerfile (0.5 h)
+- [x] **1.2** `internal/assign` + golden fixture + statistical tests (1.5 h)
+- [x] **1.3** `internal/experiment` validation + `internal/payload` compiler (1.0 h)
+- [x] **1.4** Snapshot, file-backed config, payload and assign endpoints, server binary (1.5 h)
+- [x] **1.5** `web/ab.js` evaluator + Go/JS parity test + minimal demo page (1.5 h)
+
+Phase 2: Storage, tenancy, admin API
+
+- [ ] **2.1** Postgres schema, migrator, store, integration test harness (1.0 h)
+- [ ] **2.2** Sites, credentials, auth middleware, origin matcher, rate limiter (1.0 h)
+- [ ] **2.3** Admin experiment API with status machine (1.0 h)
+- [ ] **2.4** Refresher goroutine, version bump, tenant isolation tests (1.0 h)
+
+Phase 3: Tracking
+
+- [ ] **3.1** Exposure and conversion endpoints (1.0 h)
+- [ ] **3.2** Snippet tracking: exposure dedupe, `ab.convert` (0.5 h)
+
+Phase 4: Results
+
+- [ ] **4.1** Statistics: Wilson, z-test, SRM (0.75 h)
+- [ ] **4.2** Results query and endpoint (0.75 h)
+- [ ] **4.3** Simulate endpoint (`DEMO_MODE`) (0.5 h)
+
+Phase 5: Demo and dashboard
+
+- [ ] **5.1** Demo page with simulate button (0.75 h)
+- [ ] **5.2** Dashboard: site settings, experiments (1.25 h)
+- [ ] **5.3** Dashboard: results view (0.5 h)
+- [ ] **5.4** Snippet hardening and fail-safe test page (0.5 h)
+
+Phase 6: LLM-generated variants
+
+- [ ] **6.1** LLM client interface, Anthropic implementation, fake (1.0 h)
+- [ ] **6.2** LLM jobs table, worker, generate/approve endpoints (1.0 h)
+- [ ] **6.3** Dashboard: generate with AI (0.5 h)
+
+Phase 7: Deploy
+
+- [ ] **7.1** Fly.io + Neon deployment, demo site bootstrap, smoke test (1.0 h)
+- [ ] **7.2** CDN in front, load test, recorded numbers (0.5 h)
+
+Phase 8: Documentation
+
+- [ ] **8.1** README with integration guide (1.0 h)
+- [ ] **8.2** Design document (1.5 h)
+- [ ] **8.3** Walkthrough script, hygiene pass (0.5 h)
+
+Buffer: 0.5 h. Total 24 h. If the clock forces cuts, cut from the end of phase 6 (keep 6.1 and the design-document discussion), then 7.2, then 5.3 and 5.4. Phases 1 to 4 and 8 are never cut.
 
 ## Phase map
 
@@ -80,7 +102,7 @@ Phase 1 is the whole render-path story and is demoable on its own with a JSON co
 
 **Goal.** A visitor's browser, given a site key, fetches a compiled payload and computes variants locally with the same answer the Go reference gives. Server-side callers get the same answer from `GET /v1/assign`. No database yet: config comes from a JSON file, so the critical path is finished and testable before any storage decision can slow it down.
 
-**Exit criteria.** `go test ./...` and `node --test web/` pass; `go run ./cmd/server` with a sample config serves a payload with correct cache headers and `/v1/assign` agrees with the browser evaluator on the golden fixture; the minimal demo page shows a variant that is stable across reloads and changes when the cookie is cleared.
+**Exit criteria.** `go test ./...` and `node --test web/*.test.js` pass; `go run ./cmd/server` with a sample config serves a payload with correct cache headers and `/v1/assign` agrees with the browser evaluator on the golden fixture; the minimal demo page shows a variant that is stable across reloads and changes when the cookie is cleared.
 
 ### 1.1 Scaffold
 
@@ -90,7 +112,7 @@ TP §2, §14.
 - Directory layout from TP §14, with `doc.go` stubs so packages compile: `cmd/server`, `internal/{assign,experiment,payload,configcache,httpapi}`, `web/`, `migrations/`, `deploy/`, `scripts/`.
 - `.gitignore` (`.env`, binaries, `node_modules`), `.env.example` with every variable from TP §14 and placeholder values, `Makefile` (`build`, `test`, `test-js`, `run`, `lint`).
 - `deploy/Dockerfile`: multi-stage, static binary, `web/` and `migrations/` embedded via `embed`, so the image is one binary.
-- CI workflow: `go vet`, `go test ./...`, `node --test web/`.
+- CI workflow: `go vet`, `go test ./...`, `node --test web/*.test.js`.
 - `README.md` stub: one paragraph and a "work in progress" marker.
 
 **Done when:** `go build ./...` succeeds; `make test` runs (zero tests is fine); `docker build -f deploy/Dockerfile .` succeeds; CI config passes a syntax check.
@@ -138,7 +160,7 @@ TP §4 (two thresholds), §5.4, §13.1 (everything except tracking).
 - `GET /v1/ab.js` served from the embedded `web/` with long public cache headers.
 - `web/demo/index.html` minimal: inline snippet, one `data-ab` headline, one CTA, visible visitor id and variant for manual checks. Served at `/demo`.
 
-**Done when:** `node --test web/` passes; `go test ./...` passes; open `/demo` with the sample config, reload several times and the variant is stable, clear the `_abv` cookie and across ~20 reloads both variants appear; DevTools shows one payload request on first load and none on reload within 60 s. Tag the commit `read-path-complete`.
+**Done when:** `node --test web/*.test.js` passes; `go test ./...` passes; open `/demo` with the sample config, reload several times and the variant is stable, clear the `_abv` cookie and across ~20 reloads both variants appear; DevTools shows one payload request on first load and none on reload within 60 s. After review, the commit is tagged `read-path-complete`.
 
 ---
 
@@ -212,7 +234,7 @@ TP §13.1 tracking bullets.
 - Replace the stubs: exposure via `sendBeacon` (fallback `fetch` with `keepalive`), once per `(visitor, experiment, variant)` using a `localStorage` set, fired after evaluation and when `ready` resolves; store `{experiment: variant}` for `ab.convert(goal, {value})`, which sends one beacon per assigned experiment.
 - Tests: dedupe set behaviour; convert sends one beacon per experiment; nothing is sent for held-back experiments or on failure paths.
 
-**Done when:** `node --test web/` passes; demo page against the local server produces one exposure row per reload session and a conversion row on button click.
+**Done when:** `node --test web/*.test.js` passes; demo page against the local server produces one exposure row per reload session and a conversion row on button click.
 
 ---
 
