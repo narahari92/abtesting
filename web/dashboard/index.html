@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Experiments dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Login: the site API key is the only credential. Kept in sessionStorage for this tab. -->
+  <section id="login" class="card login" hidden>
+    <h1>Experiments dashboard</h1>
+    <p class="muted">Sign in with your site API key (<code>sk_live_…</code>). It is sent only to this service and kept in this tab's session.</p>
+    <form id="login-form">
+      <input id="login-key" type="password" autocomplete="off" placeholder="sk_live_…" required>
+      <button class="btn" type="submit">Sign in</button>
+    </form>
+    <p id="login-error" class="error"></p>
+  </section>
+
+  <div id="app" hidden>
+    <header>
+      <div>
+        <strong id="site-name"></strong>
+        <span class="muted">site <code id="site-key"></code> · payload version <code id="site-version"></code> · <a id="payload-link" href="#" target="_blank">payload.json</a></span>
+      </div>
+      <nav>
+        <a href="#experiments" data-view="experiments" class="active">Experiments</a>
+        <a href="#settings" data-view="settings">Settings</a>
+        <a href="#" id="logout">Sign out</a>
+      </nav>
+    </header>
+
+    <div id="banner" class="banner" hidden></div>
+
+    <main id="view-experiments" class="two-col">
+      <aside class="card">
+        <div class="row between">
+          <h2>Experiments</h2>
+          <button class="btn small" id="new-experiment">New</button>
+        </div>
+        <ul id="experiment-list" class="list"></ul>
+      </aside>
+      <section id="detail" class="card">
+        <p class="muted">Select an experiment, or create one.</p>
+      </section>
+    </main>
+
+    <main id="view-settings" hidden>
+      <section class="card narrow">
+        <h2>Site settings</h2>
+        <form id="settings-form">
+          <label>Name<input id="settings-name" maxlength="200"></label>
+          <label>Allowed origins, one per line. Browser beacons are accepted only from these origins.
+            <textarea id="settings-origins" rows="4" placeholder="https://www.example.com"></textarea></label>
+          <div class="muted">Rate limits per replica: events <span id="settings-events-rps"></span>/s, assign <span id="settings-assign-rps"></span>/s. Status: <span id="settings-status"></span>.</div>
+          <button class="btn" type="submit">Save</button>
+        </form>
+      </section>
+    </main>
+
+    <!-- Create / edit form -->
+    <dialog id="editor">
+      <form id="editor-form" method="dialog">
+        <h2 id="editor-title">New experiment</h2>
+        <div class="grid">
+          <label>Key <span class="muted">(lowercase, digits, hyphens; used in data-ab and the API)</span><input id="ed-key" pattern="[a-z0-9][a-z0-9\-]{0,63}" required></label>
+          <label>Name<input id="ed-name" maxlength="200"></label>
+          <label>Description<input id="ed-description" maxlength="2000"></label>
+          <label>Coverage % <span class="muted">(share of visitors admitted; the rest see defaults)</span><input id="ed-coverage" type="number" min="0" max="100" step="0.01" value="100"></label>
+        </div>
+        <h3>Variants <span class="muted">weights must total 100 %; exactly one control</span></h3>
+        <table class="variants-edit">
+          <thead><tr><th>Key</th><th>Weight %</th><th>Control</th><th>Content (JSON object; string fields are applied to data-ab elements)</th><th></th></tr></thead>
+          <tbody id="ed-variants"></tbody>
+        </table>
+        <button type="button" class="btn small secondary" id="ed-add-variant">Add variant</button>
+        <p id="editor-error" class="error"></p>
+        <div class="row end">
+          <button type="button" class="btn secondary" id="editor-cancel">Cancel</button>
+          <button class="btn" type="submit" id="editor-save">Save</button>
+        </div>
+      </form>
+    </dialog>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -6,7 +6,7 @@ import "embed"
 
 // Files holds every static asset served by the Go binary.
 //
-//go:embed ab.js demo/*
+//go:embed ab.js demo/* dashboard/*
 var Files embed.FS
 
 // BaseURLPlaceholder is the token in ab.js that the server replaces with

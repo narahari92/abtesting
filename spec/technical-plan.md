@@ -560,7 +560,9 @@ Notes:
 
 ---
 
-## 9. Results and statistical validity
+## 9. Results
+
+**Scope decision (Phase 4).** The results endpoint reports counts only: exposures, converted visitors, conversion rate, a per-goal breakdown and the unattributed conversion count. The statistical layer described below (Wilson intervals, z-test, SRM) was implemented and then removed from the product at the owner's request; it is retained here as the design for a next step and listed in §17.
 
 Returned per experiment:
 
@@ -786,7 +788,7 @@ Total ≈ 24 h. Phases 1–5 are the must-ship core; phase 6 is required for the
 - Bot and crawler filtering; SRM is the only signal.
 - Per-site retention and automated deletion schedules; manual site deletion only.
 - Usage metering and billing hooks.
-- Sequential or Bayesian analysis; fixed-horizon z-test only, with a peeking warning.
+- Statistical testing on the results page: Wilson intervals, a two-proportion z-test against control, and a sample-ratio-mismatch check (the design is in §9); then sequential or Bayesian analysis to address peeking.
 - Multi-armed bandit allocation; the design will describe how ranges could be updated by a scheduler without changing the evaluator.
 - Cross-site learning; described conceptually (shared priors on variant archetypes), not built.
 - Geo, device, or attribute targeting rules in the payload.

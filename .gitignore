@@ -18,8 +18,5 @@ coverage.*
 # node (tests only, no dependencies expected)
 node_modules/
 
-# local notes not part of the deliverable
-/growthbook-architecture.md
-
 # throwaway local database (scripts/localdb.sh)
 /.localdb/

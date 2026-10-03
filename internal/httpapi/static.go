@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
+	"io/fs"
 	"net/http"
 	"sync"
 
@@ -58,6 +59,20 @@ func (s *Server) handleSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Write(body)
+}
+
+// dashboardFiles serves the embedded dashboard (index.html, app.js, css)
+// with a short cache so fixes propagate quickly.
+func (s *Server) dashboardFiles() http.Handler {
+	sub, err := fs.Sub(web.Files, "dashboard")
+	if err != nil {
+		return http.NotFoundHandler()
+	}
+	files := http.FileServer(http.FS(sub))
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", pageCacheControl)
+		files.ServeHTTP(w, r)
+	})
 }
 
 func (s *Server) handleDemo(w http.ResponseWriter, _ *http.Request) {

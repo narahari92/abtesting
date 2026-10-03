@@ -43,16 +43,16 @@ Phase 3: Tracking
 
 Phase 4: Results
 
-- [ ] **4.1** Statistics: Wilson, z-test, SRM (0.75 h)
-- [ ] **4.2** Results query and endpoint (0.75 h)
+- [x] **4.1** Statistics: Wilson, z-test, SRM (0.75 h). Built, then removed on request: results report counts only; statistical testing is listed as a next step.
+- [x] **4.2** Results query and endpoint (0.75 h): exposures, converted visitors, rate, per-goal counts and values, unattributed conversions
 - [ ] **4.3** Simulate endpoint (`DEMO_MODE`) (0.5 h)
 
 Phase 5: Demo and dashboard
 
 - [x] **5.0** Example customer site under `examples/customer-site` with provisioning script (added on request after Phase 2)
 - [ ] **5.1** Demo page with simulate button (0.75 h)
-- [ ] **5.2** Dashboard: site settings, experiments (1.25 h)
-- [ ] **5.3** Dashboard: results view (0.5 h)
+- [x] **5.2** Dashboard: site settings, experiments (1.25 h)
+- [x] **5.3** Dashboard: results view (0.5 h)
 - [ ] **5.4** Snippet hardening and fail-safe test page (0.5 h)
 
 Phase 6: LLM-generated variants
@@ -69,7 +69,7 @@ Phase 7: Deploy
 Phase 8: Documentation
 
 - [ ] **8.1** README with integration guide (1.0 h)
-- [ ] **8.2** Design document (1.5 h)
+- [x] **8.2** Design document (1.5 h). Written for the current build; revise with deployment details and measured numbers after Phase 7
 - [ ] **8.3** Walkthrough script, hygiene pass (0.5 h)
 
 Buffer: 0.5 h. Total 24 h. If the clock forces cuts, cut from the end of phase 6 (keep 6.1 and the design-document discussion), then 7.2, then 5.3 and 5.4. Phases 1 to 4 and 8 are never cut.

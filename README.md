@@ -19,6 +19,8 @@ eval "$(scripts/localdb.sh start)"      # exports DATABASE_URL and TEST_DATABASE
 PLATFORM_ADMIN_KEY=change-me make run   # migrates at boot, serves on :8080
 ```
 
+Customer dashboard: open `http://localhost:8080/dashboard/` and sign in with a site API key to manage experiments, edit allowed origins, and read results (exposures, conversions and conversion rate per variant, with a per-goal breakdown).
+
 Run from a config file instead, with no database and the control plane disabled:
 
 ```sh

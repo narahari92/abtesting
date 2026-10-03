@@ -78,6 +78,10 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("GET /v1/ab.js", s.handleSnippet)
 	mux.HandleFunc("GET /demo", s.handleDemo)
 	mux.HandleFunc("GET /demo/{$}", s.handleDemo)
+	mux.Handle("GET /dashboard/", http.StripPrefix("/dashboard/", s.dashboardFiles()))
+	mux.HandleFunc("GET /dashboard", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/dashboard/", http.StatusMovedPermanently)
+	})
 
 	if s.Store == nil {
 		mux.HandleFunc("/v1/platform/", s.controlPlaneDisabled)
@@ -97,6 +101,7 @@ func (s *Server) Handler() http.Handler {
 		mux.Handle("GET /v1/admin/experiments", admin(http.HandlerFunc(s.handleListExperiments)))
 		mux.Handle("GET /v1/admin/experiments/{key}", admin(http.HandlerFunc(s.handleGetExperiment)))
 		mux.Handle("PATCH /v1/admin/experiments/{key}", admin(http.HandlerFunc(s.handlePatchExperiment)))
+		mux.Handle("GET /v1/admin/experiments/{key}/results", admin(http.HandlerFunc(s.handleResults)))
 	}
 
 	return s.recoverer(s.logging(cors(mux)))

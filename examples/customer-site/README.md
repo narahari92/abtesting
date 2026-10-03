@@ -45,6 +45,10 @@ The site requires a login (`login.html`, any password). `session.js` keeps the u
 
 Logging out invalidates the cache: the session, the cached payload and the stored assignments are removed, and the next login starts from a fresh payload fetch.
 
+## See the results
+
+Open the service's dashboard at <http://localhost:8080/dashboard/> and sign in with the site API key that `setup.sh` printed. Select `hero-cta` or `pricing-layout`: the results table shows exposures and conversions per variant from the beacons this site sent, with a goal filter for `signup` and `checkout`. The dashboard is also where you pause, resume, archive or raise coverage, and where new experiments are created.
+
 ## Things to try
 
 - Log in as `alice`, reload the home page several times: same headline, `payloadSource: cache`, zero payload requests. Log out and log in as `bob`, `carol`, ... until you have seen both headlines.
