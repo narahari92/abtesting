@@ -168,6 +168,31 @@ test('first visit: fetches from the configured base and stores the payload', asy
   assert.ok(f.store.has('ab:payload:demo'));
 });
 
+// Loads ab.js the way the server serves it, with the base URL placeholder
+// substituted, and returns the module.
+function loadServed(baseUrl) {
+  const src = fs.readFileSync(path.join(__dirname, 'ab.js'), 'utf8').replace('__AB_BASE_URL__', baseUrl);
+  const mod = { exports: {} };
+  new Function('module', 'exports', src)(mod, mod.exports);
+  return mod.exports;
+}
+
+test('payload host precedence: cfg.baseUrl, baked-in host, script origin, same origin', async () => {
+  const cases = [
+    { baked: '', cfg: {}, scriptOrigin: 'https://cdn.example', want: 'https://cdn.example/v1/sites/demo/payload.json' },
+    { baked: '', cfg: {}, scriptOrigin: '', want: '/v1/sites/demo/payload.json' },
+    { baked: 'https://baked.example/', cfg: {}, scriptOrigin: 'https://cdn.example', want: 'https://baked.example/v1/sites/demo/payload.json' },
+    { baked: 'https://baked.example', cfg: { baseUrl: 'https://cfg.example' }, scriptOrigin: 'https://cdn.example', want: 'https://cfg.example/v1/sites/demo/payload.json' },
+  ];
+  for (const c of cases) {
+    const served = loadServed(c.baked);
+    const f = fakeEnv({ fetchImpl: ok(payload) });
+    f.env.scriptOrigin = c.scriptOrigin;
+    await served._internal.run({ site: 'demo', ...c.cfg }, f.env);
+    assert.equal(f.fetches[0], c.want, JSON.stringify(c));
+  }
+});
+
 test('unknown hash_version in payload: held back, nothing applied', async () => {
   const only = { site: 'demo', version: 1, experiments: [{ ...payload.experiments[0], hash_version: 3 }] };
   const f = fakeEnv({ fetchImpl: ok(only) });

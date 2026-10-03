@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Acme Analytics</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+  <script src="session.js"></script>
+  <!-- Speculative connection to the service so the payload fetch skips DNS/TLS setup on first visit. -->
+  <script>document.write('<link rel="preconnect" href="' + AB_SERVICE_URL + '" crossorigin>');</script>
+  <!-- Install by URL. A production site would hard-code its service host or inline ab.js;
+       document.write is only here so config.js can point this example at any host. -->
+  <script>document.write('<script src="' + AB_SERVICE_URL + '/v1/ab.js"><\/script>');</script>
+  <script>if (AB_VISITOR_ID) ab.init({ site: AB_SITE_KEY, visitorId: AB_VISITOR_ID });</script>
+</head>
+<body>
+  <header>
+    <div class="logo">Acme Analytics</div>
+    <nav><a href="index.html" class="active">Home</a><a href="pricing.html">Pricing</a><a href="docs.html">Docs</a><span id="account"></span></nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <!-- Content-driven experiment: the snippet writes the chosen variant's
+           headline and cta fields into these elements. Defaults are authored
+           here so the page is complete even if the service is unreachable. -->
+      <h1 data-ab="hero-cta:headline">Analytics your whole team will actually use</h1>
+      <p>Dashboards, alerts and reports in one place. No SQL required, no data team required.</p>
+      <button class="btn" data-ab="hero-cta:cta" onclick="track('signup')">Start free trial</button>
+    </section>
+
+    <section class="features">
+      <div class="feature"><h3>Connect in minutes</h3><p>Fifty integrations, one click each.</p></div>
+      <div class="feature"><h3>Alerts that matter</h3><p>Anomaly detection tuned to your baseline.</p></div>
+      <div class="feature"><h3>Share anywhere</h3><p>Embed live charts in docs, wikis and chat.</p></div>
+    </section>
+  </main>
+
+  <footer>Acme Analytics is a fictional company used to demonstrate the variant service.</footer>
+  <details id="ab-debug">
+    <summary>Experiment debug panel (testing only)</summary>
+    <pre id="ab-debug-out">waiting for the snippet…</pre>
+    <div class="row">
+      <button id="ab-refresh">Refetch payload</button>
+      <button id="ab-logout">Log out</button>
+    </div>
+  </details>
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

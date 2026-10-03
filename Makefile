@@ -26,3 +26,6 @@ fmt:
 
 docker:
 	docker build -f deploy/Dockerfile -t variantsvc:local .
+
+example-site:
+	python3 -m http.server 3000 --directory examples/customer-site

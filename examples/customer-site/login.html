@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Log in · Acme Analytics</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+  <script src="session.js"></script>
+  <!-- No experiments on this page, so the snippet is not loaded here. -->
+</head>
+<body>
+  <header>
+    <div class="logo">Acme Analytics</div>
+    <nav><a href="index.html">Home</a><a href="pricing.html">Pricing</a><a href="docs.html">Docs</a></nav>
+  </header>
+  <main style="max-width:26rem">
+    <h1>Log in</h1>
+    <p style="color:#667085">This site requires a login. Mock login for the example: any password works. The username becomes the experiment identity <code>user:&lt;name&gt;</code>, so the same account sees the same variants on every device and browser. Logging out clears the session and the cached payload.</p>
+    <form id="login" style="display:grid;gap:.75rem">
+      <label>Username<br><input name="user" required autocomplete="username" pattern="[A-Za-z0-9][A-Za-z0-9._\-]{0,62}" style="width:100%;padding:.6rem;font:inherit" placeholder="alice"></label>
+      <label>Password<br><input name="password" type="password" autocomplete="current-password" style="width:100%;padding:.6rem;font:inherit" placeholder="anything"></label>
+      <button class="btn" type="submit">Log in</button>
+      <p id="err" style="color:#b42318;margin:0"></p>
+    </form>
+  </main>
+  <footer>Acme Analytics is a fictional company used to demonstrate the variant service.</footer>
+  <script>
+    document.getElementById('login').onsubmit = function (e) {
+      e.preventDefault();
+      var user = this.user.value.trim();
+      if (!acmeSession.login(user)) { document.getElementById('err').textContent = 'Use letters, digits, dot, dash or underscore.'; return; }
+      var next = new URLSearchParams(location.search).get('next') || 'index.html';
+      location.href = /^[a-z]+\.html$/.test(next) ? next : 'index.html';
+    };
+  </script>
+</body>
+</html>

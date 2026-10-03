@@ -105,3 +105,36 @@ func TestValidKey(t *testing.T) {
 		}
 	}
 }
+
+func TestTransitions(t *testing.T) {
+	allowed := map[[2]Status]bool{
+		{StatusDraft, StatusRunning}: true, {StatusDraft, StatusArchived}: true,
+		{StatusRunning, StatusPaused}: true, {StatusRunning, StatusArchived}: true,
+		{StatusPaused, StatusRunning}: true, {StatusPaused, StatusArchived}: true,
+	}
+	all := []Status{StatusDraft, StatusRunning, StatusPaused, StatusArchived}
+	for _, from := range all {
+		for _, to := range all {
+			if got := CanTransition(from, to); got != allowed[[2]Status{from, to}] {
+				t.Errorf("CanTransition(%s, %s) = %v", from, to, got)
+			}
+		}
+	}
+}
+
+func TestNewSeedAndStartBlockers(t *testing.T) {
+	a, _ := NewSeed()
+	b, _ := NewSeed()
+	if len(a) != 32 || a == b {
+		t.Fatalf("seeds %q %q", a, b)
+	}
+	e := valid()
+	if bl := e.StartBlockers(); len(bl) != 0 {
+		t.Fatalf("valid experiment should start: %v", bl)
+	}
+	e.Variants[1].Approved = false
+	e.Variants[1].WeightBP = 1
+	if bl := e.StartBlockers(); len(bl) != 2 || !strings.Contains(bl[1], "unapproved") {
+		t.Fatalf("blockers: %v", bl)
+	}
+}

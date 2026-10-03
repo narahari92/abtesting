@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Docs · Acme Analytics</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+  <script src="session.js"></script>
+  <!-- Speculative connection to the service so the payload fetch skips DNS/TLS setup on first visit. -->
+  <script>document.write('<link rel="preconnect" href="' + AB_SERVICE_URL + '" crossorigin>');</script>
+  <!-- Install by URL. A production site would hard-code its service host or inline ab.js;
+       document.write is only here so config.js can point this example at any host. -->
+  <script>document.write('<script src="' + AB_SERVICE_URL + '/v1/ab.js"><\/script>');</script>
+  <script>if (AB_VISITOR_ID) ab.init({ site: AB_SITE_KEY, visitorId: AB_VISITOR_ID });</script>
+</head>
+<body>
+  <header>
+    <div class="logo">Acme Analytics</div>
+    <nav><a href="index.html">Home</a><a href="pricing.html">Pricing</a><a href="docs.html" class="active">Docs</a><span id="account"></span></nav>
+  </header>
+  <main>
+    <h1>Documentation</h1>
+    <p>This page has no experiment elements. The snippet still runs (every page carries it), evaluates the payload and keeps the visitor's assignments warm, but changes nothing here.</p>
+    <p>Try the QA override on any page: <a href="index.html?ab_force=hero-cta:b">index.html?ab_force=hero-cta:b</a>.</p>
+  </main>
+  <footer>Acme Analytics is a fictional company used to demonstrate the variant service.</footer>
+  <details id="ab-debug">
+    <summary>Experiment debug panel (testing only)</summary>
+    <pre id="ab-debug-out">waiting for the snippet…</pre>
+    <div class="row">
+      <button id="ab-refresh">Refetch payload</button>
+      <button id="ab-logout">Log out</button>
+    </div>
+  </details>
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,9 +1,12 @@
 package experiment
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"regexp"
+	"time"
 
 	"variantsvc/internal/assign"
 )
@@ -57,13 +60,19 @@ var keyRE = regexp.MustCompile(`^[a-z0-9][a-z0-9-]{0,63}$`)
 // with a hyphen. Keys appear in URLs, data-ab attributes and query strings.
 func ValidKey(k string) bool { return keyRE.MatchString(k) }
 
-// Site is a tenant.
+// Site is a tenant. APIKeyHash is the SHA-256 of the private site API key;
+// the key itself is never stored.
 type Site struct {
-	Key            string   `json:"key"`
-	Name           string   `json:"name"`
-	Status         string   `json:"status"`
-	AllowedOrigins []string `json:"allowed_origins"`
-	PayloadVersion int64    `json:"payload_version"`
+	ID             string    `json:"-"`
+	Key            string    `json:"key"`
+	Name           string    `json:"name"`
+	Status         string    `json:"status"`
+	APIKeyHash     string    `json:"-"`
+	AllowedOrigins []string  `json:"allowed_origins"`
+	AssignRPSLimit int       `json:"assign_rps_limit"`
+	EventsRPSLimit int       `json:"events_rps_limit"`
+	PayloadVersion int64     `json:"payload_version"`
+	CreatedAt      time.Time `json:"created_at"`
 }
 
 // Variant is one arm of an experiment. Content is an arbitrary JSON object
@@ -80,6 +89,8 @@ type Variant struct {
 
 // Experiment is the configuration unit a visitor is bucketed into.
 type Experiment struct {
+	ID          string    `json:"-"`
+	SiteID      string    `json:"-"`
 	Key         string    `json:"key"`
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
@@ -88,6 +99,8 @@ type Experiment struct {
 	HashVersion int       `json:"hash_version"`
 	CoverageBP  int       `json:"coverage_bp"`
 	Variants    []Variant `json:"variants"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
 // Validate checks the invariants every stored experiment must satisfy.
@@ -175,4 +188,43 @@ func (e *Experiment) WeightsBP() []int {
 		w[i] = v.WeightBP
 	}
 	return w
+}
+
+// NewSeed returns 16 random bytes, hex-encoded: the per-experiment value
+// that decorrelates bucketing across experiments and tenants.
+func NewSeed() (string, error) {
+	var b [16]byte
+	if _, err := rand.Read(b[:]); err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(b[:]), nil
+}
+
+// CanTransition encodes the lifecycle: draft → running → paused ⇄ running,
+// anything but archived → archived. Archived is terminal, and nothing goes
+// back to draft because visitors may already have been exposed.
+func CanTransition(from, to Status) bool {
+	switch from {
+	case StatusDraft:
+		return to == StatusRunning || to == StatusArchived
+	case StatusRunning:
+		return to == StatusPaused || to == StatusArchived
+	case StatusPaused:
+		return to == StatusRunning || to == StatusArchived
+	}
+	return false
+}
+
+// StartBlockers lists why an experiment cannot move to running, or nothing.
+func (e *Experiment) StartBlockers() []string {
+	var out []string
+	if err := e.Validate(); err != nil {
+		out = append(out, err.Error())
+	}
+	for _, v := range e.Variants {
+		if !v.Approved {
+			out = append(out, fmt.Sprintf("variant %q is an unapproved draft; approve or remove it", v.Key))
+		}
+	}
+	return out
 }

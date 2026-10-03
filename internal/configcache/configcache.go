@@ -31,6 +31,9 @@ type Entry struct {
 type Snapshot struct {
 	Sites    map[string]*Entry
 	LoadedAt time.Time
+	// byAPIKeyHash indexes entries by the SHA-256 of their site API key so
+	// admin authentication is a map lookup with no I/O.
+	byAPIKeyHash map[string]*Entry
 }
 
 // Source produces site configurations: a JSON file in phase 1, the
@@ -42,7 +45,7 @@ type Source interface {
 // Build compiles site configurations into a snapshot. Experiments that are
 // running but not servable are logged and left out.
 func Build(configs []SiteConfig, now time.Time, log *slog.Logger) *Snapshot {
-	s := &Snapshot{Sites: make(map[string]*Entry, len(configs)), LoadedAt: now}
+	s := &Snapshot{Sites: make(map[string]*Entry, len(configs)), LoadedAt: now, byAPIKeyHash: make(map[string]*Entry, len(configs))}
 	for _, c := range configs {
 		var p *payload.Payload
 		if c.Site.Status == experiment.SiteSuspended {
@@ -61,7 +64,11 @@ func Build(configs []SiteConfig, now time.Time, log *slog.Logger) *Snapshot {
 			}
 			continue
 		}
-		s.Sites[c.Site.Key] = &Entry{Site: c.Site, Payload: p, Bytes: b, ETag: p.ETag()}
+		entry := &Entry{Site: c.Site, Payload: p, Bytes: b, ETag: p.ETag()}
+		s.Sites[c.Site.Key] = entry
+		if c.Site.APIKeyHash != "" {
+			s.byAPIKeyHash[c.Site.APIKeyHash] = entry
+		}
 	}
 	return s
 }
@@ -82,6 +89,15 @@ func (c *Cache) Get(siteKey string) *Entry {
 		return nil
 	}
 	return s.Sites[siteKey]
+}
+
+// GetByAPIKeyHash resolves a hashed site API key to its entry, or nil.
+func (c *Cache) GetByAPIKeyHash(hash string) *Entry {
+	s := c.ptr.Load()
+	if s == nil {
+		return nil
+	}
+	return s.byAPIKeyHash[hash]
 }
 
 // Swap installs a new snapshot.

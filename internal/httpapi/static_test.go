@@ -1,6 +1,7 @@
 package httpapi
 
 import (
+	"net/http"
 	"strings"
 	"testing"
 
@@ -22,6 +23,14 @@ func TestSnippetServedWithBaseURL(t *testing.T) {
 	}
 	if res.Header.Get("Access-Control-Allow-Origin") != "*" {
 		t.Error("snippet must be CORS-readable")
+	}
+	etag := res.Header.Get("ETag")
+	if etag == "" {
+		t.Fatal("snippet must carry an ETag so browsers can revalidate cheaply")
+	}
+	res2, body2 := get(t, ts.URL+"/v1/ab.js", map[string]string{"If-None-Match": etag})
+	if res2.StatusCode != http.StatusNotModified || len(body2) != 0 {
+		t.Errorf("If-None-Match: %d with %d bytes", res2.StatusCode, len(body2))
 	}
 }
 

@@ -224,8 +224,11 @@
     }
   }
 
+  // Payload host precedence: explicit cfg.baseUrl, then the host the server
+  // baked into this file, then the origin this script was loaded from (URL
+  // install), then same-origin (inline install on the service's own pages).
   function defaultBase(env) {
-    if (BASE_URL.indexOf('__') !== 0) return BASE_URL;
+    if (BASE_URL && BASE_URL.indexOf('__') !== 0) return BASE_URL;
     return env.scriptOrigin || '';
   }
 

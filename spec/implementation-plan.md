@@ -31,10 +31,10 @@ Phase 1: Read path
 
 Phase 2: Storage, tenancy, admin API
 
-- [ ] **2.1** Postgres schema, migrator, store, integration test harness (1.0 h)
-- [ ] **2.2** Sites, credentials, auth middleware, origin matcher, rate limiter (1.0 h)
-- [ ] **2.3** Admin experiment API with status machine (1.0 h)
-- [ ] **2.4** Refresher goroutine, version bump, tenant isolation tests (1.0 h)
+- [x] **2.1** Postgres schema, migrator, store, integration test harness (1.0 h)
+- [x] **2.2** Sites, credentials, auth middleware, origin matcher, rate limiter (1.0 h)
+- [x] **2.3** Admin experiment API with status machine (1.0 h)
+- [x] **2.4** Refresher goroutine, version bump, tenant isolation tests (1.0 h)
 
 Phase 3: Tracking
 
@@ -49,6 +49,7 @@ Phase 4: Results
 
 Phase 5: Demo and dashboard
 
+- [x] **5.0** Example customer site under `examples/customer-site` with provisioning script (added on request after Phase 2)
 - [ ] **5.1** Demo page with simulate button (0.75 h)
 - [ ] **5.2** Dashboard: site settings, experiments (1.25 h)
 - [ ] **5.3** Dashboard: results view (0.5 h)

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Pricing · Acme Analytics</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+  <script src="session.js"></script>
+  <!-- Speculative connection to the service so the payload fetch skips DNS/TLS setup on first visit. -->
+  <script>document.write('<link rel="preconnect" href="' + AB_SERVICE_URL + '" crossorigin>');</script>
+  <!-- Install by URL. A production site would hard-code its service host or inline ab.js;
+       document.write is only here so config.js can point this example at any host. -->
+  <script>document.write('<script src="' + AB_SERVICE_URL + '/v1/ab.js"><\/script>');</script>
+  <script>if (AB_VISITOR_ID) ab.init({ site: AB_SITE_KEY, visitorId: AB_VISITOR_ID });</script>
+</head>
+<body>
+  <header>
+    <div class="logo">Acme Analytics</div>
+    <nav><a href="index.html">Home</a><a href="pricing.html" class="active">Pricing</a><a href="docs.html">Docs</a><span id="account"></span></nav>
+  </header>
+
+  <main>
+    <h1 style="text-align:center">Simple pricing</h1>
+    <p style="text-align:center;color:#667085">Key-driven experiment: <code>pricing-layout</code> decides whether annual billing is preselected and which plan is highlighted. No <code>data-ab</code> markup, the page branches on the variant key.</p>
+
+    <div style="text-align:center">
+      <div class="toggle" id="billing">
+        <button data-period="monthly" class="on">Monthly</button>
+        <button data-period="annual">Annual <small>save 20%</small></button>
+      </div>
+    </div>
+
+    <div class="plans" id="plans">
+      <div class="plan" data-plan="starter"><h3>Starter</h3><div class="price"><span data-m="19" data-a="15">$19</span><small>/mo</small></div><p>Up to 3 seats.</p><button class="btn secondary" onclick="track('checkout', 19)">Choose Starter</button></div>
+      <div class="plan" data-plan="team"><h3>Team</h3><div class="price"><span data-m="49" data-a="39">$49</span><small>/mo</small></div><p>Up to 20 seats, alerts, SSO.</p><button class="btn" onclick="track('checkout', 49)">Choose Team</button></div>
+      <div class="plan" data-plan="business"><h3>Business</h3><div class="price"><span data-m="129" data-a="99">$129</span><small>/mo</small></div><p>Unlimited seats, audit log, SLA.</p><button class="btn secondary" onclick="track('checkout', 129)">Choose Business</button></div>
+    </div>
+  </main>
+
+  <footer>Acme Analytics is a fictional company used to demonstrate the variant service.</footer>
+  <details id="ab-debug">
+    <summary>Experiment debug panel (testing only)</summary>
+    <pre id="ab-debug-out">waiting for the snippet…</pre>
+    <div class="row">
+      <button id="ab-refresh">Refetch payload</button>
+      <button id="ab-logout">Log out</button>
+    </div>
+  </details>
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+  <script>
+    (function () {
+      var period = 'monthly';
+      function render() {
+        document.querySelectorAll('#billing button').forEach(function (b) { b.classList.toggle('on', b.dataset.period === period); });
+        document.querySelectorAll('.price span').forEach(function (s) { s.textContent = '$' + (period === 'annual' ? s.dataset.a : s.dataset.m); });
+      }
+      document.querySelectorAll('#billing button').forEach(function (b) { b.onclick = function () { period = b.dataset.period; render(); }; });
+
+      // The customer's own code branches on the variant key. content carries
+      // structured settings the dashboard can tune without a deploy.
+      ab.ready.then(function (r) {
+        var a = r.assignments['pricing-layout'];
+        var settings = (a && a.content) || {};
+        if (settings.default_period === 'annual') period = 'annual';
+        var featured = settings.featured_plan || 'team';
+        document.querySelectorAll('.plan').forEach(function (p) { p.classList.toggle('featured', p.dataset.plan === featured); });
+        render();
+      });
+      render();
+    })();
+  </script>
+</body>
+</html>

@@ -1,8 +1,10 @@
 package httpapi
 
 import (
+	"context"
 	"net/http"
 	"strings"
+	"time"
 
 	"variantsvc/internal/assign"
 	"variantsvc/internal/experiment"
@@ -96,22 +98,36 @@ type readyResponse struct {
 	SnapshotLoaded   bool    `json:"snapshot_loaded"`
 	ConfigAgeSeconds float64 `json:"config_age_seconds"`
 	Sites            int     `json:"sites"`
+	// DBReachable is nil when running without a database.
+	DBReachable *bool `json:"db_reachable,omitempty"`
 }
 
 // handleReadyz reports snapshot state. It returns 503 only before the first
 // successful load; afterwards a stale snapshot is still "ready", because
 // pulling replicas out of rotation during a config-store outage would turn
 // a degraded control plane into a down data plane.
-func (s *Server) handleReadyz(w http.ResponseWriter, _ *http.Request) {
+func (s *Server) handleReadyz(w http.ResponseWriter, r *http.Request) {
 	snap := s.Cache.Current()
 	if snap == nil {
 		writeJSON(w, http.StatusServiceUnavailable, readyResponse{Status: "starting"})
 		return
 	}
-	writeJSON(w, http.StatusOK, readyResponse{
+	resp := readyResponse{
 		Status:           "ok",
 		SnapshotLoaded:   true,
 		ConfigAgeSeconds: s.Now().Sub(snap.LoadedAt).Seconds(),
 		Sites:            len(snap.Sites),
-	})
+	}
+	if s.Store != nil {
+		ctx, cancel := context.WithTimeout(r.Context(), time.Second)
+		defer cancel()
+		ok := s.Store.Ping(ctx) == nil
+		resp.DBReachable = &ok
+		if !ok {
+			// Still 200: the data plane serves from memory. "degraded" tells
+			// operators the control plane and tracking are impaired.
+			resp.Status = "degraded"
+		}
+	}
+	writeJSON(w, http.StatusOK, resp)
 }
