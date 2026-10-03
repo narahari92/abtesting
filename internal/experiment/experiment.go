@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
+	"strings"
 	"time"
 
 	"variantsvc/internal/assign"
@@ -51,6 +52,7 @@ const (
 	MaxVariants       = 20
 	// MaxContentBytes bounds a variant's serialized content.
 	MaxContentBytes = 8 * 1024
+	MaxURLPathLen   = 512
 )
 
 var keyRE = regexp.MustCompile(`^[a-z0-9][a-z0-9-]{0,63}$`)
@@ -89,18 +91,23 @@ type Variant struct {
 
 // Experiment is the configuration unit a visitor is bucketed into.
 type Experiment struct {
-	ID          string    `json:"-"`
-	SiteID      string    `json:"-"`
-	Key         string    `json:"key"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	Status      Status    `json:"status"`
-	Seed        string    `json:"seed"`
-	HashVersion int       `json:"hash_version"`
-	CoverageBP  int       `json:"coverage_bp"`
-	Variants    []Variant `json:"variants"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	ID          string `json:"-"`
+	SiteID      string `json:"-"`
+	Key         string `json:"key"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Status      Status `json:"status"`
+	Seed        string `json:"seed"`
+	HashVersion int    `json:"hash_version"`
+	CoverageBP  int    `json:"coverage_bp"`
+	// URLPath is the one page the experiment runs on, as a normalised path
+	// such as "/" or "/pricing.html". The evaluator skips the experiment on
+	// every other page, so exposures are recorded only where the variant
+	// is actually shown.
+	URLPath   string    `json:"url_path"`
+	Variants  []Variant `json:"variants"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 // Validate checks the invariants every stored experiment must satisfy.
@@ -125,6 +132,9 @@ func (e *Experiment) Validate() error {
 	}
 	if e.HashVersion != assign.HashVersion1 {
 		errs = append(errs, fmt.Errorf("hash_version %d is not supported", e.HashVersion))
+	}
+	if _, ok := NormalizeURLPath(e.URLPath); !ok {
+		errs = append(errs, fmt.Errorf("url_path %q must be a path starting with / (no host, query or fragment), at most %d characters", e.URLPath, MaxURLPathLen))
 	}
 	if e.CoverageBP < 0 || e.CoverageBP > assign.Buckets {
 		errs = append(errs, fmt.Errorf("coverage_bp %d must be within 0..%d", e.CoverageBP, assign.Buckets))
@@ -188,6 +198,34 @@ func (e *Experiment) WeightsBP() []int {
 		w[i] = v.WeightBP
 	}
 	return w
+}
+
+// NormalizeURLPath canonicalises the page path an experiment runs on and
+// the pathname of the page being evaluated, so both sides compare equal
+// strings: a trailing "/index.html" becomes "/", a trailing slash is
+// dropped except for the root, and the result must be a printable ASCII
+// path with no query, fragment or host. The browser evaluator implements
+// the same rules; the golden fixture keeps them in step.
+func NormalizeURLPath(p string) (string, bool) {
+	if p == "" || p[0] != '/' || len(p) > MaxURLPathLen {
+		return "", false
+	}
+	for i := 0; i < len(p); i++ {
+		c := p[i]
+		if c <= 0x20 || c > 0x7E || c == '?' || c == '#' {
+			return "", false
+		}
+	}
+	if len(p) > 1 && p[1] == '/' {
+		return "", false // "//host" would be a scheme-relative URL
+	}
+	if strings.HasSuffix(p, "/index.html") {
+		p = p[:len(p)-len("index.html")]
+	}
+	for len(p) > 1 && strings.HasSuffix(p, "/") {
+		p = p[:len(p)-1]
+	}
+	return p, true
 }
 
 // NewSeed returns 16 random bytes, hex-encoded: the per-experiment value

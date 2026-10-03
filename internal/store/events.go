@@ -29,6 +29,25 @@ func (s *Store) InsertConversion(ctx context.Context, siteID, experimentID, visi
 	return tag.RowsAffected() == 1, nil
 }
 
+// InsertConversionsForExposed records a goal for every experiment the
+// visitor has an exposure row for on this site, in one idempotent
+// statement. This is how browser conversions are attributed: the page does
+// not need to know which experiments the visitor saw elsewhere. Returns the
+// number of rows inserted (zero when the visitor was never exposed or has
+// already converted on this goal everywhere).
+func (s *Store) InsertConversionsForExposed(ctx context.Context, siteID, visitorID, goal string, value *float64) (int, error) {
+	tag, err := s.pool.Exec(ctx, `
+		INSERT INTO conversions (site_id, experiment_id, visitor_id, goal, value)
+		SELECT e.site_id, e.experiment_id, e.visitor_id, $3, $4
+		FROM exposures e WHERE e.site_id = $1 AND e.visitor_id = $2
+		ON CONFLICT DO NOTHING`,
+		siteID, visitorID, goal, value)
+	if err != nil {
+		return 0, err
+	}
+	return int(tag.RowsAffected()), nil
+}
+
 // EventCounts is a test and diagnostics helper.
 type EventCounts struct {
 	Exposures   int

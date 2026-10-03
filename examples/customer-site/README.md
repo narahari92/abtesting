@@ -6,9 +6,9 @@ What it demonstrates:
 
 | Page | Experiment | Style |
 |---|---|---|
-| `index.html` | `hero-cta` | Content-driven: `data-ab="hero-cta:headline"` and `data-ab="hero-cta:cta"` elements receive the chosen variant's text. No page code involved. |
-| `pricing.html` | `pricing-layout` | Key-driven: page code reads `ab.ready` and branches on the variant key; `content` carries settings (default billing period, featured plan). 90 % coverage, so one visitor in ten is held back and sees the default page. |
-| `docs.html` | none | The snippet runs but changes nothing. |
+| `index.html` | `hero-cta` (page `/`) | Content-driven: `data-ab="hero-cta:headline"` and `data-ab="hero-cta:cta"` elements receive the chosen variant's text. No page code involved. |
+| `pricing.html` | `pricing-layout` (page `/pricing.html`) | Key-driven: page code reads `ab.ready` and branches on the variant key; `content` carries settings (default billing period, featured plan). 90 % coverage, so one visitor in ten is held back and sees the default page. |
+| `docs.html` | none | The snippet runs, finds no experiment for this page, and records nothing. A conversion fired here is still attributed to experiments the user was exposed to on other pages. |
 | `login.html` | none | Mock login, any password. Every other page redirects here without a session. |
 
 Every page has a debug panel (bottom right) showing the user, the visitor id, payload version and source, the number of payload requests in this view, and the assignments, with "Refetch payload" and "Log out" buttons.
@@ -39,11 +39,15 @@ Every page has a debug panel (bottom right) showing the user, the visitor id, pa
 
 To point the pages at a different service host or tenant, edit `config.js` and pass `SERVICE_URL` / `SITE_KEY` / `SITE_ORIGIN` to `setup.sh`.
 
+## One page per experiment
+
+Every experiment has a `url_path`, the single page it runs on. The snippet evaluates and records exposure only when `location.pathname` matches it (trailing slashes and `/index.html` are normalised), so `hero-cta` counts an exposure only for visits to the home page and `pricing-layout` only for the pricing page. Conversions are attributed by the server to the experiments the user has been exposed to, whichever page the conversion happens on: a signup on the docs page still counts for `hero-cta` if the user saw the home page first.
+
 ## Identity
 
 The site requires a login (`login.html`, any password). `session.js` keeps the username in `localStorage` and every page hands it to the snippet as `visitorId: "user:<name>"`, so the experiment identity is the account, not the browser: the same user sees the same variants on a phone, a laptop and after clearing cookies, and the server-side `GET /v1/assign?v=user:<name>` agrees with the browser. The snippet never sets its `_abv` cookie on this site because an explicit visitor id is always supplied.
 
-Logging out invalidates the cache: the session, the cached payload and the stored assignments are removed, and the next login starts from a fresh payload fetch.
+Logging out invalidates the cache: the session and the cached payload are removed, and the next login starts from a fresh payload fetch. Nothing about exposures or conversions is kept in the browser.
 
 ## See the results
 
@@ -59,4 +63,4 @@ Open the service's dashboard at <http://localhost:8080/dashboard/> and sign in w
 - Open a private window and log in as `alice` again: identical variants to the first window. Compare with `curl 'localhost:8080/v1/assign?site=acme-demo&v=user:alice'`.
 - Watch the Network tab on a first visit: one `payload.json` request to the service origin with `Access-Control-Allow-Origin: *`, no preflight.
 
-Buttons call `track('signup')` and `track('checkout', price)`, which forward to `ab.convert`. The snippet sends one exposure beacon per assigned experiment the first time a user sees it in this browser, and one conversion beacon per assigned experiment on each `track` call; the server deduplicates both by primary key. Beacons from an origin that is not in the site's allow-list are accepted with 202 and silently dropped, which you can see by serving the site from a different port.
+Buttons call `track('signup')` and `track('checkout', price)`, which forward to `ab.convert`. The snippet keeps no tracking state in the browser: it sends one exposure beacon per evaluated experiment on every page view, and a single conversion beacon naming only the user and the goal. The server deduplicates exposures by primary key and attributes each conversion to every experiment that user has an exposure for on this site. Beacons from an origin that is not in the site's allow-list are accepted with 202 and silently dropped, which you can see by serving the site from a different port.

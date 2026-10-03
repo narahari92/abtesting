@@ -9,12 +9,12 @@ import (
 	"variantsvc/internal/experiment"
 )
 
-const experimentColumns = `id, site_id, key, name, description, status, seed, hash_version, coverage_bp, created_at, updated_at`
+const experimentColumns = `id, site_id, key, name, description, status, seed, hash_version, coverage_bp, url_path, created_at, updated_at`
 
 func scanExperiment(row pgx.Row) (experiment.Experiment, error) {
 	var e experiment.Experiment
 	err := row.Scan(&e.ID, &e.SiteID, &e.Key, &e.Name, &e.Description, &e.Status, &e.Seed,
-		&e.HashVersion, &e.CoverageBP, &e.CreatedAt, &e.UpdatedAt)
+		&e.HashVersion, &e.CoverageBP, &e.URLPath, &e.CreatedAt, &e.UpdatedAt)
 	return e, mapErr(err)
 }
 
@@ -25,10 +25,10 @@ func (s *Store) CreateExperiment(ctx context.Context, siteID string, e experimen
 	var out experiment.Experiment
 	err := s.tx(ctx, func(tx pgx.Tx) error {
 		row := tx.QueryRow(ctx, `
-			INSERT INTO experiments (site_id, key, name, description, status, seed, hash_version, coverage_bp)
-			VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+			INSERT INTO experiments (site_id, key, name, description, status, seed, hash_version, coverage_bp, url_path)
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 			RETURNING `+experimentColumns,
-			siteID, e.Key, e.Name, e.Description, e.Status, e.Seed, e.HashVersion, e.CoverageBP)
+			siteID, e.Key, e.Name, e.Description, e.Status, e.Seed, e.HashVersion, e.CoverageBP, e.URLPath)
 		var err error
 		if out, err = scanExperiment(row); err != nil {
 			return err
@@ -50,9 +50,9 @@ func (s *Store) CreateExperiment(ctx context.Context, siteID string, e experimen
 func (s *Store) SaveExperiment(ctx context.Context, siteID string, e experiment.Experiment) (experiment.Experiment, error) {
 	err := s.tx(ctx, func(tx pgx.Tx) error {
 		tag, err := tx.Exec(ctx, `
-			UPDATE experiments SET name = $3, description = $4, status = $5, coverage_bp = $6, updated_at = now()
+			UPDATE experiments SET name = $3, description = $4, status = $5, coverage_bp = $6, url_path = $7, updated_at = now()
 			WHERE site_id = $1 AND key = $2`,
-			siteID, e.Key, e.Name, e.Description, e.Status, e.CoverageBP)
+			siteID, e.Key, e.Name, e.Description, e.Status, e.CoverageBP, e.URLPath)
 		if err != nil {
 			return err
 		}

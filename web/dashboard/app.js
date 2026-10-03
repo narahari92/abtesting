@@ -91,7 +91,7 @@
     state.experiments.forEach(function (e) {
       var li = document.createElement('li');
       li.className = state.selected && state.selected.key === e.key ? 'active' : '';
-      li.innerHTML = '<span><strong>' + esc(e.key) + '</strong><br><span class="muted">' + esc(e.name || '') + '</span></span><span class="badge ' + e.status + '">' + e.status + '</span>';
+      li.innerHTML = '<span><strong>' + esc(e.key) + '</strong><br><span class="muted">' + esc(e.url_path || '/') + (e.name ? ' · ' + esc(e.name) : '') + '</span></span><span class="badge ' + e.status + '">' + e.status + '</span>';
       li.onclick = function () { select(e.key); };
       ul.appendChild(li);
     });
@@ -122,7 +122,8 @@
     el.innerHTML =
       '<div class="row between"><div><h2 style="margin:0">' + esc(e.key) + ' <span class="badge ' + s + '">' + s + '</span>' + (e.servable ? ' <span class="badge ok">in payload</span>' : '') + '</h2>' +
       '<div class="muted">' + esc(e.name || '') + (e.description ? ' · ' + esc(e.description) : '') + '</div></div><div class="row" id="actions"></div></div>' +
-      '<dl class="kv"><dt>Coverage</dt><dd>' + pct(e.coverage_bp) + ' of visitors admitted' + (e.coverage_bp < 10000 ? ', the rest see defaults' : '') + '</dd>' +
+      '<dl class="kv"><dt>Page</dt><dd><code>' + esc(e.url_path || '/') + '</code> · evaluated and exposed only on this path' + (s !== 'archived' ? ' <button class="btn small secondary" id="move-page">Change</button>' : '') + '</dd>' +
+      '<dt>Coverage</dt><dd>' + pct(e.coverage_bp) + ' of visitors admitted' + (e.coverage_bp < 10000 ? ', the rest see defaults' : '') + '</dd>' +
       '<dt>Seed</dt><dd><code>' + esc(e.seed) + '</code> · hash v' + e.hash_version + '</dd>' +
       '<dt>Snippet</dt><dd><code>&lt;h1 data-ab="' + esc(e.key) + ':headline"&gt;</code> for content fields, or <code>ab.ready.then(r =&gt; r.assignments["' + esc(e.key) + '"])</code></dd></dl>' +
       '<table><thead><tr><th>Variant</th><th class="num">Weight</th><th class="num">Buckets</th><th>Content</th></tr></thead><tbody>' + rows + '</tbody></table>' +
@@ -130,6 +131,12 @@
       '<label style="margin:0" class="row"><input type="checkbox" id="auto-refresh" style="width:auto"> auto-refresh 10 s</label><button class="btn small secondary" id="refresh-results">Refresh</button></div></div>' +
       '<div id="results"><p class="muted">Loading…</p></div>';
     var a = $('actions'); actions.forEach(function (b) { a.appendChild(b); });
+    var mv = $('move-page');
+    if (mv) mv.onclick = function () {
+      var v = prompt('Page URL path this experiment runs on (e.g. / or /pricing.html). Changing it changes who enters the experiment, never which variant anyone gets.', e.url_path || '/');
+      if (v == null) return;
+      api('PATCH', '/experiments/' + encodeURIComponent(e.key), { url_path: v.trim() }).then(refreshSite).then(loadExperiments).catch(fail);
+    };
     $('refresh-results').onclick = function () { loadResults(); };
     $('goal-select').onchange = function () { loadResults(); };
     $('auto-refresh').checked = !!state.autoRefresh;
@@ -197,6 +204,7 @@
     editing = e || null;
     $('editor-title').textContent = e ? 'Edit draft ' + e.key : 'New experiment';
     $('ed-key').value = e ? e.key : ''; $('ed-key').disabled = !!e;
+    $('ed-url-path').value = e ? e.url_path || '/' : '/';
     $('ed-name').value = e ? e.name || '' : ''; $('ed-description').value = e ? e.description || '' : '';
     $('ed-coverage').value = e ? e.coverage_bp / 100 : 100;
     var tb = $('ed-variants'); tb.innerHTML = '';
@@ -217,7 +225,7 @@
     var sum = variants.reduce(function (a, v) { return a + v.weight_bp; }, 0);
     if (!err && sum !== 10000) err = 'Variant weights total ' + (sum / 100) + ' %, must be exactly 100 %.';
     if (!err && variants.filter(function (v) { return v.is_control; }).length !== 1) err = 'Pick exactly one control variant.';
-    return { err: err, body: { key: $('ed-key').value.trim(), name: $('ed-name').value, description: $('ed-description').value, coverage_bp: Math.round(parseFloat($('ed-coverage').value || '0') * 100), variants: variants } };
+    return { err: err, body: { key: $('ed-key').value.trim(), url_path: $('ed-url-path').value.trim(), name: $('ed-name').value, description: $('ed-description').value, coverage_bp: Math.round(parseFloat($('ed-coverage').value || '0') * 100), variants: variants } };
   }
   $('ed-add-variant').onclick = function () { $('ed-variants').appendChild(variantRow({ key: '', weight_bp: 0, content: {} })); };
   $('editor-cancel').onclick = function () { $('editor').close(); };
@@ -226,7 +234,7 @@
     var r = readEditor();
     if (r.err) { $('editor-error').textContent = r.err; return; }
     var p = editing
-      ? api('PATCH', '/experiments/' + encodeURIComponent(editing.key), { name: r.body.name, description: r.body.description, coverage_bp: r.body.coverage_bp, variants: r.body.variants })
+      ? api('PATCH', '/experiments/' + encodeURIComponent(editing.key), { name: r.body.name, description: r.body.description, url_path: r.body.url_path, coverage_bp: r.body.coverage_bp, variants: r.body.variants })
       : api('POST', '/experiments', r.body);
     p.then(function (d) { $('editor').close(); return refreshSite().then(loadExperiments).then(function () { select(d.experiment.key); }); })
      .catch(function (err) { $('editor-error').textContent = err.message; });

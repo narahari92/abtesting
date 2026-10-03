@@ -11,6 +11,7 @@
         {
           "key": "hero-cta",
           "name": "Hero headline and CTA",
+          "url_path": "/demo",
           "status": "running",
           "seed": "3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e",
           "hash_version": 1,
@@ -25,6 +26,7 @@
         {
           "key": "checkout-flow",
           "name": "One-page checkout (key-driven)",
+          "url_path": "/demo",
           "status": "running",
           "seed": "9b2c7d1e4f3a4b8c9d0e1f2a3b4c5d6e",
           "hash_version": 1,

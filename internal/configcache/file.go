@@ -46,6 +46,9 @@ func (f FileSource) Load(_ context.Context) ([]SiteConfig, error) {
 			s.Site.PayloadVersion = version
 		}
 		for j := range s.Experiments {
+			if s.Experiments[j].URLPath == "" {
+				s.Experiments[j].URLPath = "/"
+			}
 			for k := range s.Experiments[j].Variants {
 				if s.Experiments[j].Variants[k].Source == "" {
 					s.Experiments[j].Variants[k].Source = "manual"

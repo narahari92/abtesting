@@ -7,7 +7,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const ab = require('./ab.js');
-const { fnv1a32, bucket, choose, evaluate, run, forcedVariants, validVisitor } = ab._internal;
+const { fnv1a32, bucket, choose, evaluate, run, forcedVariants, validVisitor, normalizePath } = ab._internal;
 
 const golden = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'internal', 'assign', 'testdata', 'golden.json'), 'utf8'));
 
@@ -33,31 +33,53 @@ test('visitor id validation mirrors Go', () => {
 const payload = {
   site: 'demo', version: 7,
   experiments: [
-    { key: 'hero-cta', seed: '3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e', hash_version: 1, ranges: [[0, 5000], [5000, 10000]],
+    { key: 'hero-cta', url_path: '/', seed: '3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e', hash_version: 1, ranges: [[0, 5000], [5000, 10000]],
       variants: [{ key: 'control', content: { headline: 'Default', n: 1 } }, { key: 'b', content: { headline: 'Variant B', n: 2 } }] },
     { key: 'future', seed: 'abc', hash_version: 2, ranges: [[0, 10000]], variants: [{ key: 'control', content: {} }] },
     { key: 'held', seed: 'abc', hash_version: 1, ranges: [[0, 0]], variants: [{ key: 'control', content: {} }] },
   ],
 };
 
+test('url path normalisation matches the Go reference via the fixture', () => {
+  assert.ok(golden.paths.length >= 10);
+  for (const c of golden.paths) {
+    const got = normalizePath(c.input);
+    assert.equal(got === null ? '' : got, c.path, `normalizePath(${JSON.stringify(c.input)})`);
+    assert.equal(got !== null, c.valid, `valid(${JSON.stringify(c.input)})`);
+  }
+});
+
+test('evaluate: an experiment runs only on its page; payloads without url_path run everywhere', () => {
+  const multi = { ...payload, experiments: [
+    { ...payload.experiments[0], key: 'home', url_path: '/' },
+    { ...payload.experiments[0], key: 'pricing', url_path: '/pricing.html' },
+    (({ url_path, ...rest }) => ({ ...rest, key: 'legacy' }))(payload.experiments[0]),  // no url_path: old server
+  ] };
+  assert.deepEqual(Object.keys(evaluate(multi, 'visitor-8841', {}, '/')).sort(), ['home', 'legacy']);
+  assert.deepEqual(Object.keys(evaluate(multi, 'visitor-8841', {}, '/index.html')).sort(), ['home', 'legacy']);
+  assert.deepEqual(Object.keys(evaluate(multi, 'visitor-8841', {}, '/pricing.html')).sort(), ['legacy', 'pricing']);
+  assert.deepEqual(Object.keys(evaluate(multi, 'visitor-8841', {}, '/docs.html')).sort(), ['legacy']);
+  assert.deepEqual(Object.keys(evaluate(multi, 'visitor-8841', forcedVariants('?ab_force=pricing:b'), '/')).sort(), ['home', 'legacy'], 'force cannot pull an experiment onto another page');
+});
+
 test('evaluate: hashes, holds back unknown versions and coverage gaps, honours ?ab_force', () => {
-  const a = evaluate(payload, 'visitor-8841', {});
+  const a = evaluate(payload, 'visitor-8841', {}, '/');
   assert.deepEqual(Object.keys(a), ['hero-cta']);
   const idx = choose(bucket('3f9a1c7e5b2d4a6f8c0e1d3b5a7f9c2e', 'visitor-8841', 1), payload.experiments[0].ranges);
   assert.equal(a['hero-cta'].variant, payload.experiments[0].variants[idx].key);
 
-  const forced = evaluate(payload, 'visitor-8841', forcedVariants('?x=1&ab_force=hero-cta%3Acontrol,held:control'));
+  const forced = evaluate(payload, 'visitor-8841', forcedVariants('?x=1&ab_force=hero-cta%3Acontrol,held:control'), '/');
   assert.equal(forced['hero-cta'].variant, 'control');
   assert.equal(forced['held'].variant, 'control', 'force admits a held-back visitor for QA');
-  assert.equal(evaluate(payload, 'visitor-8841', forcedVariants('?ab_force=hero-cta:nope'))['hero-cta'].variant, a['hero-cta'].variant, 'unknown forced variant falls back to the hash');
-  assert.deepEqual(evaluate(null, 'v', {}), {});
-  assert.deepEqual(evaluate({ experiments: [{ key: 'x' }] }, 'v', {}), {});
-  assert.deepEqual(evaluate(payload, '', {}), {});
+  assert.equal(evaluate(payload, 'visitor-8841', forcedVariants('?ab_force=hero-cta:nope'), '/')['hero-cta'].variant, a['hero-cta'].variant, 'unknown forced variant falls back to the hash');
+  assert.deepEqual(evaluate(null, 'v', {}, '/'), {});
+  assert.deepEqual(evaluate({ experiments: [{ key: 'x' }] }, 'v', {}, '/'), {});
+  assert.deepEqual(evaluate(payload, '', {}, '/'), {});
 });
 
 // ---- fakes ----
 
-function fakeEnv({ cached, cachedAgeMs, fetchImpl, readyState = 'complete', search = '' } = {}) {
+function fakeEnv({ cached, cachedAgeMs, fetchImpl, readyState = 'complete', search = '', pathname = '/' } = {}) {
   const store = new Map();
   let now = 1_000_000_000;
   const site = 'demo';
@@ -81,7 +103,7 @@ function fakeEnv({ cached, cachedAgeMs, fetchImpl, readyState = 'complete', sear
   const env = {
     storage: { getItem: (k) => (store.has(k) ? store.get(k) : null), setItem: (k, v) => store.set(k, String(v)), removeItem: (k) => store.delete(k) },
     document: doc,
-    location: { search },
+    location: { search, pathname },
     crypto: undefined,
     AbortController: undefined,
     fetch: (url, opts) => { if (opts && opts.method === 'POST') { beacons.push({ url, body: JSON.parse(opts.body), via: 'fetch' }); return Promise.resolve({ ok: true, status: 202 }); } fetches.push(url); return fetchImpl ? fetchImpl(url, opts) : Promise.reject(new Error('no network')); },
@@ -110,7 +132,7 @@ test('fresh cache: one payload per view, no network', async () => {
   assert.equal(f.elements[0].textContent, r.assignments['hero-cta'].content.headline);
   assert.equal(f.elements[1].textContent, 'number stays', 'non-string content is not applied');
   assert.equal(f.elements[2].textContent, 'untouched');
-  assert.equal(JSON.parse(f.store.get('ab:assignments:demo'))['hero-cta'].variant, r.assignments['hero-cta'].variant);
+  assert.ok(!f.store.has('ab:assignments:demo'), 'no tracking state is kept in storage');
 });
 
 test('stale cache (60 s < age < 4 h): used as-is, refreshed in background for the next view', async () => {
@@ -236,28 +258,24 @@ test('storage that throws is tolerated', async () => {
   assert.ok(r.assignments['hero-cta']);
 });
 
-test('exposure: one beacon per (visitor, experiment, variant), after apply, deduped across views', async () => {
+test('exposure: one beacon per evaluated experiment on every view, after apply, no browser state', async () => {
   const f = fakeEnv({ cached: payload, cachedAgeMs: 1000 });
   const r = await run({ site: 'demo', visitorId: 'user:alice' }, f.env);
   await tick();
-  assert.equal(f.beacons.length, 1, 'one assigned experiment, one beacon');
+  assert.equal(f.beacons.length, 1);
   assert.equal(f.beacons[0].via, 'sendBeacon');
   assert.equal(f.beacons[0].url, 'https://cdn.example/v1/events/exposure');
   assert.deepEqual(f.beacons[0].body, { site: 'demo', v: 'user:alice', experiment: 'hero-cta', variant: r.assignments['hero-cta'].variant });
   assert.equal(f.elements[0].textContent, r.assignments['hero-cta'].content.headline, 'exposure fires after content is applied');
-  // Same browser, next page view: nothing new to report.
+  // Next view: sent again; the server deduplicates. Nothing about it is kept in storage.
   await run({ site: 'demo', visitorId: 'user:alice' }, f.env);
   await tick();
-  assert.equal(f.beacons.length, 1);
-  // Another visitor in the same browser (login switch) is a new exposure.
-  await run({ site: 'demo', visitorId: 'user:bob' }, f.env);
-  await tick();
   assert.equal(f.beacons.length, 2);
-  assert.equal(f.beacons[1].body.v, 'user:bob');
+  assert.deepEqual([...f.store.keys()].filter((k) => k.startsWith('ab:')), ['ab:payload:demo'], 'only the payload is cached');
 });
 
 test('exposure: nothing for held-back, failed load, or timeout-dropped assignments', async () => {
-  const f = fakeEnv({});                                    // first visit, fetch fails
+  const f = fakeEnv({});
   await run({ site: 'demo' }, f.env);
   await tick();
   assert.equal(f.beacons.length, 0);
@@ -285,31 +303,58 @@ test('exposure: DOM still loading waits for DOMContentLoaded; sendBeacon missing
   assert.equal(f.beacons[0].via, 'fetch');
 });
 
-test('convert: one beacon per assigned experiment, value optional, variant never sent, bad goals ignored', async () => {
-  const two = { ...payload, experiments: [payload.experiments[0], { ...payload.experiments[0], key: 'second', seed: 'other' }] };
-  const f = fakeEnv({ fetchImpl: ok(two) });
+test('page scoping: exposure only on the experiment\'s page', async () => {
+  const two = { ...payload, experiments: [{ ...payload.experiments[0], key: 'home', url_path: '/' }, { ...payload.experiments[0], key: 'pricing', seed: 'other', url_path: '/pricing/' }] };
+  const f = fakeEnv({ fetchImpl: ok(two), pathname: '/' });
+  const home = await run({ site: 'demo', visitorId: 'user:alice' }, f.env);
+  await tick();
+  assert.deepEqual(Object.keys(home.assignments), ['home']);
+  assert.equal(home.page, '/');
+  assert.deepEqual(f.beacons.map((b) => b.body.experiment), ['home']);
+  f.env.location = { search: '', pathname: '/docs.html' };
+  const docs = await run({ site: 'demo', visitorId: 'user:alice' }, f.env);
+  await tick();
+  assert.deepEqual(docs.assignments, {});
+  assert.equal(f.beacons.length, 1, 'no exposure on a page with no experiments');
+  f.env.location = { search: '', pathname: '/pricing/index.html' };
+  const pricing = await run({ site: 'demo', visitorId: 'user:alice' }, f.env);
+  await tick();
+  assert.deepEqual(Object.keys(pricing.assignments), ['pricing']);
+  assert.deepEqual(f.beacons.map((b) => b.body.experiment), ['home', 'pricing']);
+});
+
+test('convert: one beacon with visitor and goal, no experiment, value optional, bad goals ignored', async () => {
+  const f = fakeEnv({ fetchImpl: ok(payload) });
   const r = await run({ site: 'demo', visitorId: 'user:alice' }, f.env);
   await tick();
   const exposures = f.beacons.length;
-  assert.equal(exposures, 2);
-  assert.equal(r.convert('signup'), 2);
-  assert.equal(r.convert('checkout', { value: 49 }), 2);
+  assert.equal(r.convert('signup'), true);
+  assert.equal(r.convert('checkout', { value: 49 }), true);
   const conv = f.beacons.slice(exposures);
-  assert.equal(conv.length, 4);
+  assert.equal(conv.length, 2);
   assert.ok(conv.every((b) => b.url === 'https://cdn.example/v1/events/conversion'));
-  assert.deepEqual(conv[0].body, { site: 'demo', v: 'user:alice', experiment: 'hero-cta', goal: 'signup' });
-  assert.deepEqual(conv[3].body, { site: 'demo', v: 'user:alice', experiment: 'second', goal: 'checkout', value: 49 });
-  assert.ok(conv.every((b) => !('variant' in b.body)));
-  assert.equal(r.convert('Sign Up!'), 0);
-  assert.equal(r.convert(''), 0);
-  assert.equal(r.convert('x', { value: 'ten' }), 2, 'non-numeric value is dropped, beacon still sent');
+  assert.deepEqual(conv[0].body, { site: 'demo', v: 'user:alice', goal: 'signup' });
+  assert.deepEqual(conv[1].body, { site: 'demo', v: 'user:alice', goal: 'checkout', value: 49 });
+  assert.equal(r.convert('Sign Up!'), false);
+  assert.equal(r.convert(''), false);
+  assert.equal(r.convert('x', { value: 'ten' }), true, 'non-numeric value is dropped, beacon still sent');
   assert.ok(!('value' in f.beacons[f.beacons.length - 1].body));
 });
 
-test('convert: nothing when the visitor has no assignments', async () => {
+test('convert: still sent on a page with no experiments; the server decides attribution', async () => {
+  const f = fakeEnv({ fetchImpl: ok(payload), pathname: '/docs.html' });
+  const r = await run({ site: 'demo', visitorId: 'user:alice' }, f.env);
+  await tick();
+  assert.deepEqual(r.assignments, {});
+  assert.equal(f.beacons.length, 0);
+  assert.equal(r.convert('signup'), true);
+  assert.deepEqual(f.beacons[0].body, { site: 'demo', v: 'user:alice', goal: 'signup' });
+});
+
+test('convert: not sent when init had no site', async () => {
   const f = fakeEnv({});
-  const r = await run({ site: 'demo' }, f.env);
-  assert.equal(r.convert('signup'), 0);
+  const r = await run({}, f.env);
+  assert.equal(r.convert('signup'), false);
   assert.equal(f.beacons.length, 0);
 });
 

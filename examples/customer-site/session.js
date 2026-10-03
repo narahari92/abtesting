@@ -16,13 +16,10 @@
     return true;
   }
   // Logout invalidates everything cached for this user: the session and the
-  // snippet's payload and assignment caches for this site.
+  // snippet's payload cache for this site. (Tracking keeps no browser state.)
   function logout() {
     localStorage.removeItem(KEY);
-    try {
-      localStorage.removeItem('ab:payload:' + window.AB_SITE_KEY);
-      localStorage.removeItem('ab:assignments:' + window.AB_SITE_KEY);
-    } catch (e) { /* ignore */ }
+    try { localStorage.removeItem('ab:payload:' + window.AB_SITE_KEY); } catch (e) { /* ignore */ }
   }
 
   window.acmeSession = { current: current, login: login, logout: logout };

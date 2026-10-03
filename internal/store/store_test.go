@@ -14,7 +14,7 @@ func ctx() context.Context { return context.Background() }
 
 func sampleExperiment(key string) experiment.Experiment {
 	return experiment.Experiment{
-		Key: key, Name: "Test " + key, Status: experiment.StatusDraft, Seed: "seed-" + key, HashVersion: 1, CoverageBP: 10000,
+		Key: key, Name: "Test " + key, Status: experiment.StatusDraft, Seed: "seed-" + key, HashVersion: 1, CoverageBP: 10000, URLPath: "/landing",
 		Variants: []experiment.Variant{
 			{Key: "control", WeightBP: 5000, IsControl: true, Source: experiment.SourceManual, Approved: true, Position: 0, Content: map[string]any{"headline": "A"}},
 			{Key: "b", WeightBP: 5000, Source: experiment.SourceManual, Approved: true, Position: 1, Content: map[string]any{"headline": "B", "n": float64(2)}},
@@ -87,7 +87,7 @@ func TestExperimentsCRUDAndVersionBump(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if e.ID == "" || e.SiteID != site.ID || len(e.Variants) != 2 || e.Variants[0].Key != "control" || e.Variants[1].Content["n"] != float64(2) {
+	if e.ID == "" || e.SiteID != site.ID || e.URLPath != "/landing" || len(e.Variants) != 2 || e.Variants[0].Key != "control" || e.Variants[1].Content["n"] != float64(2) {
 		t.Fatalf("created: %+v", e)
 	}
 	after, _ := s.GetSite(ctx(), "acme")

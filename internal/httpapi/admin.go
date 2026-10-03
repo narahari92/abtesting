@@ -32,6 +32,7 @@ type createExperimentRequest struct {
 	Key         string         `json:"key"`
 	Name        string         `json:"name"`
 	Description string         `json:"description"`
+	URLPath     string         `json:"url_path"`
 	CoverageBP  *int           `json:"coverage_bp"`
 	Variants    []variantInput `json:"variants"`
 }
@@ -66,12 +67,17 @@ func (s *Server) handleCreateExperiment(w http.ResponseWriter, r *http.Request) 
 	}
 	e := experiment.Experiment{
 		Key: req.Key, Name: req.Name, Description: req.Description, Status: experiment.StatusDraft,
-		Seed: seed, HashVersion: assign.HashVersion1, CoverageBP: coverage, Variants: toVariants(req.Variants),
+		Seed: seed, HashVersion: assign.HashVersion1, CoverageBP: coverage, URLPath: req.URLPath, Variants: toVariants(req.Variants),
+	}
+	if e.URLPath == "" {
+		writeError(w, http.StatusBadRequest, "url_path is required: the one page this experiment runs on, for example \"/\" or \"/pricing.html\"")
+		return
 	}
 	if err := e.Validate(); err != nil {
 		writeError(w, http.StatusBadRequest, err.Error())
 		return
 	}
+	e.URLPath, _ = experiment.NormalizeURLPath(e.URLPath)
 	created, err := s.Store.CreateExperiment(r.Context(), siteFrom(r).ID, e)
 	if err != nil {
 		storeError(w, err, "experiment not found")
@@ -109,6 +115,7 @@ type patchExperimentRequest struct {
 	Status      *experiment.Status `json:"status"`
 	Name        *string            `json:"name"`
 	Description *string            `json:"description"`
+	URLPath     *string            `json:"url_path"`
 	CoverageBP  *int               `json:"coverage_bp"`
 	Variants    []variantInput     `json:"variants"`
 }
@@ -145,6 +152,11 @@ func (s *Server) handlePatchExperiment(w http.ResponseWriter, r *http.Request) {
 	if req.Description != nil {
 		next.Description = *req.Description
 	}
+	if req.URLPath != nil {
+		// Moving an experiment to another page changes who enters it, never
+		// which arm anyone is in, so it is allowed in any non-archived state.
+		next.URLPath = *req.URLPath
+	}
 	if req.Variants != nil {
 		if cur.Status != experiment.StatusDraft {
 			writeError(w, http.StatusConflict, "weights and variants are immutable once an experiment has run, because changing them would move visitors between arms; pause it and create a new experiment (new seed) with the new split")
@@ -180,6 +192,7 @@ func (s *Server) handlePatchExperiment(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, err.Error())
 		return
 	}
+	next.URLPath, _ = experiment.NormalizeURLPath(next.URLPath)
 	saved, err := s.Store.SaveExperiment(r.Context(), siteID, next)
 	if err != nil {
 		storeError(w, err, "experiment not found")

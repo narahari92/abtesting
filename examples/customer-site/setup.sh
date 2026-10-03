@@ -73,9 +73,10 @@ create_and_start() { # key json
   esac
 }
 
-# 2. Content-driven experiment: copy only, no code on the customer side.
+# 2. Content-driven experiment on the home page: copy only, no code on the customer side.
 create_and_start hero-cta '{
   "key": "hero-cta",
+  "url_path": "/",
   "name": "Homepage hero headline and CTA",
   "description": "Content-driven: the snippet writes headline and cta into data-ab elements.",
   "coverage_bp": 10000,
@@ -87,11 +88,12 @@ create_and_start hero-cta '{
   ]
 }'
 
-# 3. Key-driven experiment: the page branches on the variant key; content
+# 3. Key-driven experiment on the pricing page: the page branches on the variant key; content
 #    carries settings the dashboard can tune without a deploy. 90 % coverage
 #    leaves a 10 % hold-back that sees the default page.
 create_and_start pricing-layout '{
   "key": "pricing-layout",
+  "url_path": "/pricing.html",
   "name": "Pricing page layout",
   "description": "Key-driven: preselect annual billing and highlight a plan.",
   "coverage_bp": 9000,

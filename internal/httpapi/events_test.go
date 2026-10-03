@@ -269,3 +269,64 @@ func mustEnv(t *testing.T, k string) string {
 	}
 	return v
 }
+
+// TestConversionFanOutByExposure: a beacon without an experiment is
+// attributed to every experiment the visitor has an exposure for.
+func TestConversionFanOutByExposure(t *testing.T) {
+	d := newDBServer(t)
+	_, apiKey, heroID := trackingSite(t, d)
+	// Second experiment on another page.
+	req := heroRequest()
+	req.Key = "pricing-layout"
+	req.URLPath = "/pricing.html"
+	d.createExperiment(t, apiKey, req)
+	running := experiment.StatusRunning
+	d.patch(t, apiKey, "pricing-layout", patchExperimentRequest{Status: &running})
+	pricingID := d.srv.Cache.Get("acme").Experiments["pricing-layout"].ID
+
+	exp := func(v, e string) {
+		d.beacon(t, "/v1/events/exposure", `{"site":"acme","v":"`+v+`","experiment":"`+e+`","variant":"control"}`, acmeOrigin, "")
+	}
+	conv := func(v, goal string) {
+		d.beacon(t, "/v1/events/conversion", `{"site":"acme","v":"`+v+`","goal":"`+goal+`","value":10}`, acmeOrigin, "")
+	}
+	// alice saw both pages; bob only the home page; carol nothing.
+	exp("user:alice", "hero-cta")
+	exp("user:alice", "pricing-layout")
+	exp("user:bob", "hero-cta")
+	conv("user:alice", "signup")
+	conv("user:alice", "signup") // repeat: no new rows
+	conv("user:bob", "signup")
+	conv("user:carol", "signup") // never exposed: nothing to attribute to
+
+	hero := d.counts(t, heroID)
+	pricing := d.counts(t, pricingID)
+	if hero.Conversions != 2 || pricing.Conversions != 1 {
+		t.Fatalf("hero %+v pricing %+v; want hero 2 conversions (alice, bob), pricing 1 (alice)", hero, pricing)
+	}
+	var unattributed int
+	d.store.Pool().QueryRow(ctxBg(), `SELECT count(*) FROM conversions c WHERE NOT EXISTS (SELECT 1 FROM exposures e WHERE e.experiment_id=c.experiment_id AND e.visitor_id=c.visitor_id)`).Scan(&unattributed)
+	if unattributed != 0 {
+		t.Fatalf("fan-out can never create unattributed conversions, found %d", unattributed)
+	}
+	// Exposure repeats are harmless: same rows.
+	exp("user:alice", "hero-cta")
+	exp("user:alice", "hero-cta")
+	if c := d.counts(t, heroID); c.Exposures != 2 {
+		t.Fatalf("exposures %d, want 2", c.Exposures)
+	}
+	// Recorder outcomes for the fan-out path.
+	out := d.srv.Events.Conversion(ctxBg(), events.Conversion{Site: "acme", Visitor: "user:carol", Goal: "signup"}, events.Credentials{Origin: acmeOrigin})
+	if !out.Accepted || out.Inserted || out.Reason != events.ReasonDuplicate {
+		t.Errorf("unexposed visitor fan-out: %+v (accepted, nothing inserted)", out)
+	}
+	out = d.srv.Events.Conversion(ctxBg(), events.Conversion{Site: "acme", Visitor: "user:bob", Goal: "checkout"}, events.Credentials{Origin: acmeOrigin})
+	if !out.Inserted {
+		t.Errorf("new goal for exposed visitor: %+v", out)
+	}
+	// Explicit experiment still works for server-side callers.
+	out = d.srv.Events.Conversion(ctxBg(), events.Conversion{Site: "acme", Visitor: "user:dave", Experiment: "hero-cta", Goal: "signup"}, events.Credentials{Origin: acmeOrigin})
+	if !out.Inserted {
+		t.Errorf("explicit experiment: %+v", out)
+	}
+}

@@ -66,6 +66,7 @@
         <h2 id="editor-title">New experiment</h2>
         <div class="grid">
           <label>Key <span class="muted">(lowercase, digits, hyphens; used in data-ab and the API)</span><input id="ed-key" pattern="[a-z0-9][a-z0-9\-]{0,63}" required></label>
+          <label>Page URL path <span class="muted">(the one page this runs on, e.g. / or /pricing.html)</span><input id="ed-url-path" placeholder="/" required></label>
           <label>Name<input id="ed-name" maxlength="200"></label>
           <label>Description<input id="ed-description" maxlength="2000"></label>
           <label>Coverage % <span class="muted">(share of visitors admitted; the rest see defaults)</span><input id="ed-coverage" type="number" min="0" max="100" step="0.01" value="100"></label>

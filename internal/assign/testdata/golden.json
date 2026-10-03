@@ -7028,5 +7028,92 @@
       "bucket": -1,
       "variant": -1
     }
+  ],
+  "paths": [
+    {
+      "input": "/",
+      "path": "/",
+      "valid": true
+    },
+    {
+      "input": "/index.html",
+      "path": "/",
+      "valid": true
+    },
+    {
+      "input": "/pricing.html",
+      "path": "/pricing.html",
+      "valid": true
+    },
+    {
+      "input": "/pricing/",
+      "path": "/pricing",
+      "valid": true
+    },
+    {
+      "input": "/pricing///",
+      "path": "/pricing",
+      "valid": true
+    },
+    {
+      "input": "/docs/index.html",
+      "path": "/docs",
+      "valid": true
+    },
+    {
+      "input": "/a/b/c.html",
+      "path": "/a/b/c.html",
+      "valid": true
+    },
+    {
+      "input": "/Index.HTML",
+      "path": "/Index.HTML",
+      "valid": true
+    },
+    {
+      "input": "/x-y_z.html",
+      "path": "/x-y_z.html",
+      "valid": true
+    },
+    {
+      "input": "/index.html/",
+      "path": "/index.html",
+      "valid": true
+    },
+    {
+      "input": "",
+      "path": "",
+      "valid": false
+    },
+    {
+      "input": "pricing",
+      "path": "",
+      "valid": false
+    },
+    {
+      "input": "//evil.com/x",
+      "path": "",
+      "valid": false
+    },
+    {
+      "input": "/x?y=1",
+      "path": "",
+      "valid": false
+    },
+    {
+      "input": "/x#frag",
+      "path": "",
+      "valid": false
+    },
+    {
+      "input": "/x y",
+      "path": "",
+      "valid": false
+    },
+    {
+      "input": "https://a.com/",
+      "path": "",
+      "valid": false
+    }
   ]
 }

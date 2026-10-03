@@ -15,7 +15,7 @@ type expResp struct {
 
 func heroRequest() createExperimentRequest {
 	return createExperimentRequest{
-		Key: "hero-cta", Name: "Hero CTA",
+		Key: "hero-cta", Name: "Hero CTA", URLPath: "/",
 		Variants: []variantInput{
 			{Key: "control", WeightBP: 5000, IsControl: true, Content: map[string]any{"headline": "Default"}},
 			{Key: "b", WeightBP: 5000, Content: map[string]any{"headline": "Variant B"}},
@@ -265,5 +265,55 @@ func TestTenantIsolationInAdminAPI(t *testing.T) {
 	d.call(t, "GET", "/v1/sites/site-b/payload.json", "", nil, &pb)
 	if len(pa.Experiments) != 1 || len(pb.Experiments) != 0 {
 		t.Errorf("payload isolation: a=%d b=%d", len(pa.Experiments), len(pb.Experiments))
+	}
+}
+
+func TestExperimentURLPath(t *testing.T) {
+	d := newDBServer(t)
+	_, apiKey := d.createSite(t, "acme")
+	// Required on create, with a helpful message.
+	req := heroRequest()
+	req.URLPath = ""
+	var er errorResponse
+	if res := d.call(t, "POST", "/v1/admin/experiments", apiKey, req, &er); res.StatusCode != http.StatusBadRequest || !strings.Contains(er.Error, "url_path is required") {
+		t.Fatalf("missing url_path: %d %q", res.StatusCode, er.Error)
+	}
+	req.URLPath = "https://acme.com/pricing"
+	if res := d.call(t, "POST", "/v1/admin/experiments", apiKey, req, &er); res.StatusCode != http.StatusBadRequest || !strings.Contains(er.Error, "url_path") {
+		t.Fatalf("url with host: %d %q", res.StatusCode, er.Error)
+	}
+	// Normalised on create.
+	req.URLPath = "/pricing/index.html"
+	e := d.createExperiment(t, apiKey, req)
+	if e.URLPath != "/pricing" {
+		t.Fatalf("url_path stored as %q, want /pricing", e.URLPath)
+	}
+	// Payload carries it; /v1/assign filters by it.
+	running := experiment.StatusRunning
+	d.patch(t, apiKey, "hero-cta", patchExperimentRequest{Status: &running})
+	var p payload.Payload
+	d.call(t, "GET", "/v1/sites/acme/payload.json", "", nil, &p)
+	if len(p.Experiments) != 1 || p.Experiments[0].URLPath != "/pricing" {
+		t.Fatalf("payload: %+v", p.Experiments)
+	}
+	for q, want := range map[string]int{"": 1, "&path=/pricing": 1, "&path=/pricing/": 1, "&path=/pricing/index.html": 1, "&path=/": 0, "&path=/other": 0, "&path=nope": 0} {
+		var a assignResponse
+		d.call(t, "GET", "/v1/assign?site=acme&v=visitor-1"+q, "", nil, &a)
+		if len(a.Assignments) != want {
+			t.Errorf("assign%s: %d assignments, want %d", q, len(a.Assignments), want)
+		}
+	}
+	// Movable while running (changes who enters, not which arm), normalised, bumps the payload.
+	res, e2, er := d.patch(t, apiKey, "hero-cta", patchExperimentRequest{URLPath: ptr("/checkout/")})
+	if res.StatusCode != 200 || e2.Experiment.URLPath != "/checkout" {
+		t.Fatalf("move page: %d %q %+v", res.StatusCode, er.Error, e2.Experiment)
+	}
+	var p2 payload.Payload
+	d.call(t, "GET", "/v1/sites/acme/payload.json", "", nil, &p2)
+	if p2.Experiments[0].URLPath != "/checkout" || p2.Version <= p.Version {
+		t.Errorf("payload after move: %+v (version %d -> %d)", p2.Experiments[0], p.Version, p2.Version)
+	}
+	if res, _, _ := d.patch(t, apiKey, "hero-cta", patchExperimentRequest{URLPath: ptr("bad")}); res.StatusCode != http.StatusBadRequest {
+		t.Errorf("bad path on patch: %d", res.StatusCode)
 	}
 }

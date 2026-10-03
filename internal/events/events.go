@@ -60,6 +60,9 @@ type Exposure struct {
 
 // Conversion is a parsed conversion beacon. Variant is deliberately absent:
 // results join conversions to exposures by (experiment, visitor).
+// Experiment is optional: the browser snippet omits it and the server
+// attributes the goal to every experiment the visitor was exposed to on
+// this site. Server-side callers may name one experiment explicitly.
 type Conversion struct {
 	Site       string   `json:"site"`
 	Visitor    string   `json:"v"`
@@ -156,10 +159,6 @@ func (r *Recorder) Conversion(ctx context.Context, c Conversion, creds Credentia
 	if !assign.ValidVisitorID(c.Visitor) {
 		return r.logged(kindConversion, c.Site, c.Experiment, Outcome{Reason: DropBadVisitor})
 	}
-	exp := entry.Experiments[c.Experiment]
-	if exp == nil || exp.ID == "" {
-		return r.logged(kindConversion, c.Site, c.Experiment, Outcome{Reason: DropUnknownExp})
-	}
 	if !experiment.ValidKey(c.Goal) || len(c.Goal) > maxGoalLen {
 		return r.logged(kindConversion, c.Site, c.Experiment, Outcome{Reason: DropBadGoal})
 	}
@@ -168,6 +167,15 @@ func (r *Recorder) Conversion(ctx context.Context, c Conversion, creds Credentia
 	}
 	wctx, cancel := context.WithTimeout(ctx, WriteBudget)
 	defer cancel()
+	if c.Experiment == "" {
+		// Attribute to everything this visitor was exposed to on the site.
+		n, err := r.Store.InsertConversionsForExposed(wctx, entry.Site.ID, c.Visitor, c.Goal, c.Value)
+		return r.logged(kindConversion, c.Site, "*", afterWrite(n > 0, err))
+	}
+	exp := entry.Experiments[c.Experiment]
+	if exp == nil || exp.ID == "" {
+		return r.logged(kindConversion, c.Site, c.Experiment, Outcome{Reason: DropUnknownExp})
+	}
 	inserted, err := r.Store.InsertConversion(wctx, entry.Site.ID, exp.ID, c.Visitor, c.Goal, c.Value)
 	return r.logged(kindConversion, c.Site, c.Experiment, afterWrite(inserted, err))
 }

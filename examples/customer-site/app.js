@@ -46,6 +46,7 @@
       site: window.AB_SITE_KEY,
       user: s ? s.user : null,
       visitorId: result.visitorId,
+      page: result.page,
       payloadVersion: result.payloadVersion,
       payloadSource: result.source,
       payloadRequestsThisView: payloadRequests,

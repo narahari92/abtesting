@@ -40,6 +40,7 @@ Phase 3: Tracking
 
 - [x] **3.1** Exposure and conversion endpoints (1.0 h)
 - [x] **3.2** Snippet tracking: exposure dedupe, `ab.convert` (0.5 h)
+- [x] **3.3** One page per experiment: `url_path` on experiments, page-scoped evaluation and exposure, conversions attributed by exposure set, `path=` on `/v1/assign` (added on request after 5.3)
 
 Phase 4: Results
 

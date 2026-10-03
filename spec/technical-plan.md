@@ -309,7 +309,7 @@ We set no cookies on our own domain. Requests therefore carry no credentials, wh
 | `GET` | `/v1/sites/{site}/payload.json` | **The primary read path.** Compiled config for one site: running experiments with seed, hash version, precomputed ranges, and variant content. | JSON, `Cache-Control: public, max-age=30, stale-while-revalidate=3600, stale-if-error=36000`, `ETag: "<version>"`. Unknown or suspended site: `200` with an empty experiment list and the same headers, so the snippet behaves identically. |
 | `GET` | `/v1/assign?site=<key>&v=<visitor_id>&e=<exp1,exp2>` | Server-side evaluation for callers that cannot run the evaluator. `e` optional. | `{ "assignments": [ { "experiment": "hero-cta", "variant": "b", "content": { "headline": "..." } } ] }` with `Cache-Control: private, max-age=30`. |
 | `POST` | `/v1/events/exposure` | Record that a visitor saw a variant. Body: `{ site, v, experiment, variant }`. Browser: `Origin` must match site allow-list. Server: Bearer site API key. | `202` empty. Idempotent. |
-| `POST` | `/v1/events/conversion` | Record a goal. Body: `{ site, v, experiment, goal, value? }`. Same auth rule. | `202` empty. Idempotent per `(experiment, visitor, goal)`. |
+| `POST` | `/v1/events/conversion` | Record a goal. Body: `{ site, v, goal, value? }`; the server attributes it to every experiment the visitor has an exposure for. Server-side callers may add `experiment` to name one. Same auth rule. | `202` empty. Idempotent per `(experiment, visitor, goal)`. |
 | `GET` | `/v1/ab.js` | The snippet with the evaluator. | JS with long public cache headers. |
 | `GET` | `/healthz` | Liveness. | `200` always once the process is up. |
 | `GET` | `/readyz` | Readiness. Reports snapshot age and DB reachability but still returns `200` if a snapshot exists, so a DB outage does not pull replicas from the load balancer. | JSON. |
@@ -323,6 +323,7 @@ Payload shape:
   "experiments": [
     {
       "key": "hero-cta",
+      "url_path": "/",
       "seed": "3f9a1c...",
       "hash_version": 1,
       "ranges": [[0, 4500], [5000, 9500]],
@@ -555,7 +556,7 @@ Notes:
 - **Exposure primary key `(experiment_id, visitor_id)`** is what makes duplicate exposures harmless: the first write wins, every subsequent one is a no-op. The browser also dedupes before sending, so the server sees roughly one exposure per visitor per experiment rather than one per page view. It records `variant_key` as actually shown, so results remain correct even if config is later edited.
 - **Conversion primary key `(experiment_id, visitor_id, goal)`** counts a visitor once per goal. The design document will discuss when you would want to count repeat conversions (revenue) and how `value` supports that later.
 - **`site_id` is denormalised onto events** so every results query and every deletion is a single-table predicate, and so a future partitioning by tenant needs no schema change.
-- Indexes: `exposures(experiment_id, variant_key)` for the results aggregation; `exposures(site_id)` and `conversions(site_id)` for deletion; `llm_jobs(status, created_at)` for the worker's claim query; `sites(api_key_hash)` for auth.
+- Indexes: `exposures(experiment_id, variant_key)` for the results aggregation; `exposures(site_id, visitor_id)` for conversion attribution; `exposures(site_id)` and `conversions(site_id)` for deletion; `llm_jobs(status, created_at)` for the worker's claim query; `sites(api_key_hash)` for auth.
 - Events are append-only. The application never updates or deletes them except through site deletion.
 
 ---
@@ -778,7 +779,7 @@ Total ≈ 24 h. Phases 1–5 are the must-ship core; phase 6 is required for the
 ## 17. Explicitly out of scope (goes in the design document as next steps)
 
 - Accounts and users owning multiple sites, SSO, roles. One API key per site is the whole auth model.
-- **Page-scoped exposure.** Today the evaluator evaluates every experiment in the payload on every page and records exposure after evaluation, so a visitor can be counted as exposed to an experiment whose elements are not on the page they are viewing. Both arms inflate equally, so there is no bias between variants, but conversion rates are understated and power is wasted. The fix is to separate deciding from exposing: in the content-driven style, evaluate and expose only experiments with at least one `data-ab` element in the DOM; in the key-driven style, replace the all-assignments `ready` result with an `ab.get("<experiment>")` call that evaluates lazily and records exposure at that moment, as GrowthBook's tracking callback does. `ab.convert` then reports only experiments in the local exposure set. URL targeting rules in the payload, so an experiment can declare its pages from the dashboard, follow naturally.
+- **Richer page targeting.** Implemented after Phase 3: every experiment carries a `url_path`, the one page it runs on, and the evaluator evaluates and exposes it only there; `ab.convert` reports to the experiments in the visitor's local exposure set. Not built: patterns or lists of pages per experiment, URL-triggered goals, and an `ab.get("<experiment>")` lazy style for single-page apps.
 - Server SDKs (Go, Node) that hold the payload in-process for server-rendered customers; today they call `/v1/assign` per render.
 - CDN purge-by-URL on publish and a push channel (SSE) for open tabs; propagation is bounded by `max-age` plus the stale TTL.
 - Sticky buckets across weight changes, GrowthBook-style, persisted in the browser; handled by policy (clone with new seed).

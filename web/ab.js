@@ -65,14 +65,34 @@
     return out;
   }
 
-  // Evaluates every experiment in the payload for one visitor.
+  // Normalises a URL path the same way the server does, so an experiment's
+  // url_path and the page's location.pathname compare as equal strings:
+  // a trailing /index.html becomes /, trailing slashes are dropped except
+  // for the root. Returns null when the path is not a plain path.
+  function normalizePath(p) {
+    if (typeof p !== 'string' || p.length === 0 || p.charAt(0) !== '/' || p.length > 512) return null;
+    for (var i = 0; i < p.length; i++) {
+      var c = p.charCodeAt(i);
+      if (c <= 0x20 || c > 0x7e || c === 0x3f /* ? */ || c === 0x23 /* # */) return null;
+    }
+    if (p.length > 1 && p.charAt(1) === '/') return null;
+    if (/\/index\.html$/.test(p)) p = p.slice(0, p.length - 'index.html'.length);
+    while (p.length > 1 && p.charAt(p.length - 1) === '/') p = p.slice(0, -1);
+    return p;
+  }
+
+  // Evaluates the experiments that run on the current page for one visitor.
+  // An experiment with a url_path runs only where it matches pathname;
+  // payloads without url_path (older servers) run everywhere.
   // Returns { "<experiment>": { variant: "<key>", content: {...} } }.
-  function evaluate(payload, visitor, forced) {
+  function evaluate(payload, visitor, forced, pathname) {
     var out = {};
     var exps = (payload && Array.isArray(payload.experiments)) ? payload.experiments : [];
+    var page = normalizePath(pathname);
     for (var i = 0; i < exps.length; i++) {
       var e = exps[i];
       if (!e || typeof e.key !== 'string' || !Array.isArray(e.variants)) continue;
+      if (typeof e.url_path === 'string' && (page === null || normalizePath(e.url_path) !== page)) continue;
       var idx = -1;
       if (forced && forced[e.key]) {
         for (var j = 0; j < e.variants.length; j++) {
@@ -173,48 +193,25 @@
     } catch (e) { return false; }
   }
 
-  // Exposure dedupe: one beacon per (visitor, experiment, variant) per
-  // browser, remembered in localStorage. The server dedupes again by
-  // primary key, so losing this set only costs a harmless repeat.
-  function exposedSet(storage, site) {
-    try {
-      var raw = storage.getItem('ab:exposed:' + site);
-      var arr = raw ? JSON.parse(raw) : [];
-      return Array.isArray(arr) ? arr : [];
-    } catch (e) { return []; }
-  }
-
+  // Exposures: one beacon per evaluated experiment on every page view. The
+  // browser keeps no state about what it has sent; the server deduplicates
+  // by (experiment, visitor), so repeats are harmless and nothing can go
+  // stale in localStorage.
   function recordExposures(env, state, assignments) {
-    var seen = exposedSet(env.storage, state.site);
-    var changed = false;
     for (var key in assignments) {
       if (!Object.prototype.hasOwnProperty.call(assignments, key)) continue;
-      var tag = state.visitorId + '|' + key + '|' + assignments[key].variant;
-      if (seen.indexOf(tag) >= 0) continue;
-      if (beacon(env, state.base + '/v1/events/exposure', { site: state.site, v: state.visitorId, experiment: key, variant: assignments[key].variant })) {
-        seen.push(tag);
-        changed = true;
-      }
-    }
-    if (changed) {
-      if (seen.length > 500) seen = seen.slice(seen.length - 500);
-      try { env.storage.setItem('ab:exposed:' + state.site, JSON.stringify(seen)); } catch (e) { /* ignore */ }
+      beacon(env, state.base + '/v1/events/exposure', { site: state.site, v: state.visitorId, experiment: key, variant: assignments[key].variant });
     }
   }
 
-  // One conversion beacon per experiment the visitor was assigned to. The
-  // variant is not sent: the server joins conversions to exposures.
-  function recordConversion(env, state, assignments, goal, opts) {
-    if (typeof goal !== 'string' || !/^[a-z0-9][a-z0-9-]{0,63}$/.test(goal)) return 0;
-    var value = opts && typeof opts.value === 'number' && isFinite(opts.value) ? opts.value : undefined;
-    var sent = 0;
-    for (var key in assignments) {
-      if (!Object.prototype.hasOwnProperty.call(assignments, key)) continue;
-      var body = { site: state.site, v: state.visitorId, experiment: key, goal: goal };
-      if (value !== undefined) body.value = value;
-      if (beacon(env, state.base + '/v1/events/conversion', body)) sent++;
-    }
-    return sent;
+  // Conversion: a single beacon naming the visitor and the goal. The server
+  // attributes it to every experiment this visitor has an exposure for on
+  // the site, whichever page that exposure happened on.
+  function recordConversion(env, state, goal, opts) {
+    if (!state.site || typeof goal !== 'string' || !/^[a-z0-9][a-z0-9-]{0,63}$/.test(goal)) return false;
+    var body = { site: state.site, v: state.visitorId, goal: goal };
+    if (opts && typeof opts.value === 'number' && isFinite(opts.value)) body.value = opts.value;
+    return beacon(env, state.base + '/v1/events/conversion', body);
   }
 
   // ---- visitor identity: first-party cookie on the customer's domain ----
@@ -296,14 +293,14 @@
   // ---- orchestration ----
 
   function run(cfg, env) {
-    var result = { assignments: {}, visitorId: null, payloadVersion: null, source: 'none' };
+    var result = { assignments: {}, visitorId: null, payloadVersion: null, source: 'none', page: null };
     var state = { site: null, visitorId: null, base: '' };
     var finished = false;
 
     // convert is attached to the result so the public ab.convert can reach
     // this run's site, visitor and assignments.
     result.convert = function (goal, opts) {
-      try { return recordConversion(env, state, result.assignments, goal, opts); } catch (e) { return 0; }
+      try { return recordConversion(env, state, goal, opts); } catch (e) { return false; }
     };
 
     function finish() {
@@ -340,14 +337,15 @@
       state.base = base;
       var url = base + '/v1/sites/' + encodeURIComponent(cfg.site) + '/payload.json';
       var forced = forcedVariants(env.location ? env.location.search : '');
+      var pathname = env.location && typeof env.location.pathname === 'string' ? env.location.pathname : '/';
+      result.page = normalizePath(pathname);
 
       return loadPayload(env, cfg.site, url, opts).then(function (r) {
         result.source = r.source;
         if (r.payload && !finished) {
           result.payloadVersion = r.payload.version;
-          result.assignments = evaluate(r.payload, visitor, forced);
+          result.assignments = evaluate(r.payload, visitor, forced, pathname);
         }
-        try { env.storage.setItem('ab:assignments:' + cfg.site, JSON.stringify(result.assignments)); } catch (e) { /* ignore */ }
         return finish();
       }, function () { return finish(); });
     } catch (e) {
@@ -389,9 +387,9 @@
     return p;
   }
 
-  // ab.convert(goal, {value}) records a goal for every experiment this
-  // visitor was assigned to on this page. Safe to call before init
-  // finishes: it waits for ready. Never throws, never returns a rejection.
+  // ab.convert(goal, {value}) records a goal for this visitor; the server
+  // attributes it to the experiments the visitor was exposed to. Safe to
+  // call before init finishes: it waits for ready. Never throws.
   function convert(goal, opts) {
     try { ready.then(function (r) { if (r && typeof r.convert === 'function') r.convert(goal, opts); }); } catch (e) { /* ignore */ }
   }
@@ -407,7 +405,7 @@
         if (site) init({ site: site, baseUrl: cs.getAttribute('data-base') || undefined });
       } catch (e) { /* ignore */ }
     },
-    _internal: { fnv1a32: fnv1a32, bucket: bucket, choose: choose, evaluate: evaluate, run: run, forcedVariants: forcedVariants, validVisitor: validVisitor, loadPayload: loadPayload, beacon: beacon }
+    _internal: { fnv1a32: fnv1a32, bucket: bucket, choose: choose, evaluate: evaluate, run: run, forcedVariants: forcedVariants, validVisitor: validVisitor, loadPayload: loadPayload, beacon: beacon, normalizePath: normalizePath }
   };
   return ab;
 });

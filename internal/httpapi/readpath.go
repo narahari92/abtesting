@@ -55,8 +55,9 @@ type assignResponse struct {
 }
 
 // handleAssign is the server-side evaluator for callers that cannot run
-// the browser snippet. Any invalid input yields an empty assignment list
-// with status 200: the hot path never returns an error status.
+// the browser snippet: GET /v1/assign?site=&v=&e=&path=. Any invalid input
+// yields an empty assignment list with status 200: the hot path never
+// returns an error status.
 func (s *Server) handleAssign(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Cache-Control", AssignCacheControl)
 	q := r.URL.Query()
@@ -84,7 +85,16 @@ func (s *Server) handleAssign(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	resp.Assignments = entry.Payload.Evaluate(visitor, keys)
+	// Optional page filter: a server-rendered caller passes the path of the
+	// page it is rendering and gets only the experiments that run there.
+	urlPath := q.Get("path")
+	if urlPath != "" {
+		if _, ok := experiment.NormalizeURLPath(urlPath); !ok {
+			writeJSON(w, http.StatusOK, resp)
+			return
+		}
+	}
+	resp.Assignments = entry.Payload.Evaluate(visitor, keys, urlPath)
 	writeJSON(w, http.StatusOK, resp)
 }
 

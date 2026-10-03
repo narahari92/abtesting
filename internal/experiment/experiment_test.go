@@ -1,13 +1,15 @@
 package experiment
 
 import (
+	"encoding/json"
+	"os"
 	"strings"
 	"testing"
 )
 
 func valid() Experiment {
 	return Experiment{
-		Key: "hero-cta", Name: "Hero CTA", Status: StatusDraft, Seed: "3f9a1c", HashVersion: 1, CoverageBP: 10000,
+		Key: "hero-cta", Name: "Hero CTA", Status: StatusDraft, Seed: "3f9a1c", HashVersion: 1, CoverageBP: 10000, URLPath: "/",
 		Variants: []Variant{
 			{Key: "control", WeightBP: 5000, IsControl: true, Source: SourceManual, Approved: true, Position: 0},
 			{Key: "b", WeightBP: 5000, Source: SourceManual, Approved: true, Position: 1},
@@ -42,6 +44,9 @@ func TestValidateRejects(t *testing.T) {
 		"coverage high":     {func(e *Experiment) { e.CoverageBP = 10001 }, "coverage_bp"},
 		"coverage negative": {func(e *Experiment) { e.CoverageBP = -1 }, "coverage_bp"},
 		"no variants":       {func(e *Experiment) { e.Variants = nil }, "at least one variant"},
+		"empty url_path":    {func(e *Experiment) { e.URLPath = "" }, "url_path"},
+		"url with host":     {func(e *Experiment) { e.URLPath = "https://a.com/x" }, "url_path"},
+		"url with query":    {func(e *Experiment) { e.URLPath = "/x?y=1" }, "url_path"},
 		"weights sum":       {func(e *Experiment) { e.Variants[1].WeightBP = 4000 }, "sum to 9000"},
 		"two controls":      {func(e *Experiment) { e.Variants[1].IsControl = true }, "exactly one control"},
 		"no control":        {func(e *Experiment) { e.Variants[0].IsControl = false }, "exactly one control"},
@@ -136,5 +141,51 @@ func TestNewSeedAndStartBlockers(t *testing.T) {
 	e.Variants[1].WeightBP = 1
 	if bl := e.StartBlockers(); len(bl) != 2 || !strings.Contains(bl[1], "unapproved") {
 		t.Fatalf("blockers: %v", bl)
+	}
+}
+
+// TestURLPathGolden keeps the Go and JavaScript normalisers in step via the
+// shared fixture.
+func TestURLPathGolden(t *testing.T) {
+	raw, err := os.ReadFile("../assign/testdata/golden.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var f struct {
+		Paths []struct {
+			Input string `json:"input"`
+			Path  string `json:"path"`
+			Valid bool   `json:"valid"`
+		} `json:"paths"`
+	}
+	if err := json.Unmarshal(raw, &f); err != nil {
+		t.Fatal(err)
+	}
+	if len(f.Paths) < 10 {
+		t.Fatalf("fixture has %d path cases", len(f.Paths))
+	}
+	for _, c := range f.Paths {
+		got, ok := NormalizeURLPath(c.Input)
+		if ok != c.Valid || got != c.Path {
+			t.Errorf("NormalizeURLPath(%q) = %q,%v want %q,%v", c.Input, got, ok, c.Path, c.Valid)
+		}
+	}
+}
+
+func TestNormalizeURLPath(t *testing.T) {
+	ok := map[string]string{
+		"/": "/", "/index.html": "/", "/pricing.html": "/pricing.html", "/pricing/": "/pricing", "/pricing///": "/pricing",
+		"/docs/index.html": "/docs", "/a/b/c.html": "/a/b/c.html", "/Index.HTML": "/Index.HTML", "/x-y_z.html": "/x-y_z.html",
+	}
+	for in, want := range ok {
+		got, valid := NormalizeURLPath(in)
+		if !valid || got != want {
+			t.Errorf("NormalizeURLPath(%q) = %q,%v want %q", in, got, valid, want)
+		}
+	}
+	for _, in := range []string{"", "pricing", "//evil.com/x", "/x?y=1", "/x#frag", "/x y", "/caf\u00e9", "https://a.com/", strings.Repeat("/a", 300)} {
+		if _, valid := NormalizeURLPath(in); valid {
+			t.Errorf("NormalizeURLPath(%q) should be invalid", in)
+		}
 	}
 }

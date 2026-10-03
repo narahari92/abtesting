@@ -14,6 +14,7 @@ import (
 	"os"
 
 	"variantsvc/internal/assign"
+	"variantsvc/internal/experiment"
 )
 
 type hashCase struct {
@@ -32,11 +33,18 @@ type assignCase struct {
 	Variant     int      `json:"variant"` // -1 when held back
 }
 
+type pathCase struct {
+	Input string `json:"input"`
+	Path  string `json:"path"` // normalised form, or "" when invalid
+	Valid bool   `json:"valid"`
+}
+
 type fixture struct {
 	Description string       `json:"description"`
 	Buckets     int          `json:"buckets"`
 	FNV1a32     []hashCase   `json:"fnv1a32"`
 	Cases       []assignCase `json:"cases"`
+	Paths       []pathCase   `json:"paths"`
 }
 
 func main() {
@@ -102,6 +110,12 @@ func main() {
 			}
 			n++
 		}
+	}
+	// URL path normalisation, shared with the browser evaluator.
+	for _, in := range []string{"/", "/index.html", "/pricing.html", "/pricing/", "/pricing///", "/docs/index.html", "/a/b/c.html",
+		"/Index.HTML", "/x-y_z.html", "/index.html/", "", "pricing", "//evil.com/x", "/x?y=1", "/x#frag", "/x y", "https://a.com/"} {
+		np, ok := experiment.NormalizeURLPath(in)
+		f.Paths = append(f.Paths, pathCase{Input: in, Path: np, Valid: ok})
 	}
 	// Unknown hash version: held back, bucket not computed.
 	add(seeds[0], "visitor-8841", 99, []int{5000, 5000}, 10000)

@@ -21,6 +21,7 @@ type Payload struct {
 // evaluator does one hash and one range scan.
 type Experiment struct {
 	Key         string    `json:"key"`
+	URLPath     string    `json:"url_path"`
 	Seed        string    `json:"seed"`
 	HashVersion int       `json:"hash_version"`
 	Ranges      [][2]int  `json:"ranges"`
@@ -69,8 +70,10 @@ func Compile(site string, version int64, exps []experiment.Experiment) (*Payload
 			}
 			out[j] = Variant{Key: v.Key, Content: content}
 		}
+		urlPath, _ := experiment.NormalizeURLPath(e.URLPath)
 		p.Experiments = append(p.Experiments, Experiment{
 			Key:         e.Key,
+			URLPath:     urlPath,
 			Seed:        e.Seed,
 			HashVersion: e.HashVersion,
 			Ranges:      assign.Ranges(weights, e.CoverageBP),
@@ -108,15 +111,21 @@ type Assignment struct {
 // Evaluate runs the reference algorithm for one visitor over the payload.
 // Held-back and unknown-version experiments are omitted. If keys is
 // non-empty only those experiments are evaluated; unknown keys are ignored.
-func (p *Payload) Evaluate(visitorID string, keys []string) []Assignment {
+// If urlPath is non-empty only experiments on that page are evaluated,
+// mirroring what the browser does with location.pathname.
+func (p *Payload) Evaluate(visitorID string, keys []string, urlPath string) []Assignment {
 	out := make([]Assignment, 0, len(p.Experiments))
 	want := make(map[string]bool, len(keys))
 	for _, k := range keys {
 		want[k] = true
 	}
+	page, pageOK := experiment.NormalizeURLPath(urlPath)
 	for i := range p.Experiments {
 		e := &p.Experiments[i]
 		if len(want) > 0 && !want[e.Key] {
+			continue
+		}
+		if urlPath != "" && (!pageOK || e.URLPath != page) {
 			continue
 		}
 		idx := assign.Evaluate(e.Seed, visitorID, e.HashVersion, e.Ranges)
