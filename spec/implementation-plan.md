@@ -69,7 +69,7 @@ Phase 7: Deploy
 
 Phase 8: Documentation
 
-- [ ] **8.1** README with integration guide (1.0 h)
+- [x] **8.1** README with integration guide (1.0 h). Written for the local build; add deployment steps after Phase 7
 - [x] **8.2** Design document (1.5 h). Written for the current build; revise with deployment details and measured numbers after Phase 7
 - [ ] **8.3** Walkthrough script, hygiene pass (0.5 h)
 
